@@ -8,6 +8,11 @@
             30
         </session-timeout>
     </session-config>
+    
+    <welcome-file-list>
+        <welcome-file>login.html</welcome-file>
+    </welcome-file-list>
+    
     <servlet>
         <servlet-name>ServletContainer</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>

@@ -54,7 +54,7 @@ public class DashboardManager {
     @GET
     @Path("roles/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response  getAllRoles() throws SQLException {
+    public ArrayList getAllRoles() throws SQLException {
         Connect();
         PreparedStatement query = connection.prepareStatement("SELECT * FROM Roles");
         ResultSet rs = query.executeQuery();
@@ -78,20 +78,11 @@ public class DashboardManager {
                     row.put(md.getColumnName(i), rs.getObject(i));
                 list.add(row);
             }
-            return Response.ok(list, MediaType.APPLICATION_JSON).build();
-            //return list;
-            /*String[][] role = new String[iloscRol][2];
-            while(rs.next())
-            {
-                role[i][j++] = rs.getString("Name");
-                role[i++][j] = rs.getString("About");
-                j = 0;
-            }
-
-            return role;  */
+            Disconnect();
+            return list;
         }
         
         Disconnect();
-        return Response.ok(list, MediaType.APPLICATION_JSON).build();
+        return list;
     }
 }

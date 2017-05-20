@@ -149,7 +149,7 @@ public class Main {
                 }
             }
             // Sprawdzamy czy login i hasło się zgadzają.
-            if (username.equals(rs.getString("Username")) && password.equals(rs.getString("Password"))){
+            else if (username.equals(rs.getString("Username")) && password.equals(rs.getString("Password"))){
                 // Jeśli aktualna rola (dla sesji użytkownika) się zgadza lub aktualnie nie ma roli (brak
                 // sesji) to logowanie poprawne.
                 if(role.equals(rs.getString("CurrentRole")) || "null".equals(rs.getString("CurrentRole")) || "NULL".equals(rs.getString("CurrentRole"))){
