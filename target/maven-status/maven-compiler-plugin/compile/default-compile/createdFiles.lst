@@ -3,5 +3,5 @@ pl\bsk\projekt\servlet\CoverServlet.class
 pl\bsk\projekt\resources\DatabaseConnection.class
 pl\bsk\projekt\resources\BookResource.class
 pl\bsk\projekt\resources\Main.class
+pl\bsk\projekt\resources\RolesManager.class
 pl\bsk\projekt\entities\Book.class
-pl\bsk\projekt\resources\DashboardManager.class

@@ -67,6 +67,9 @@
                         <li>
                             <a href="roles.html"><i class="fa fa-table fa-fw"></i> Role</a>
                         </li>
+                        <li>
+                            <a href="rolesedit.html"><i class="fa fa-table fa-fw"></i> Dodaj rolę</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -89,16 +92,6 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-roles">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nazwa roli</th>
-                                        <th>Opis</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                </tbody>
                             </table>
                             <!-- /.table-responsive -->
                             
@@ -151,13 +144,16 @@
                 $(".daneUzytkownika").html(tekst);                
             });
         
-        $.getJSON('../../bsk/dashboardmanager/roles/all', function (data) {
+        $.getJSON('../../bsk/rolesmanager/roles/all', function (data) {
             var array = new Array();
             for (var i = 0, len = data.length; i < len; i++) {
                 var dataRow = new Array();
                 dataRow.push(data[i]["ID"]);
                 dataRow.push(data[i]["Name"]);
                 dataRow.push(data[i]["About"]);
+                dataRow.push("<a href=\"rolesedit.html?role=" + data[i]["ID"] + "\">Edytuj</a>");
+                dataRow.push("<form id=\"delete-form\" action=\"../../bsk/rolesmanager/roles/" + data[i]["ID"] + 
+                        "/delete\" method=\"post\"><button type=\"submit\">Usuń</button></form>");
                 array.push(dataRow);
             }
             
@@ -165,9 +161,11 @@
                 data: array,
                 columns: [
                     { title: "ID" },
-                    { title: "Name" },
-                    { title: "About" }
-                ]
+                    { title: "Nazwa roli" },
+                    { title: "Opis" },
+                    { title: "Edycja" },
+                    { title: "Usuwanie" }
+            ]
             } );         
         });
     });

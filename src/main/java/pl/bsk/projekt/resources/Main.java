@@ -50,7 +50,6 @@ public class Main {
     
     public String getRoles() throws IOException, SQLException {
         Connect();
-        Statement statement = connection.createStatement();
         PreparedStatement query = connection.prepareStatement("SELECT Name FROM Roles");
         ResultSet rs = query.executeQuery();
         
@@ -61,9 +60,8 @@ public class Main {
         
     }
     
-    private boolean checkRole(String username,String role) throws IOException, SQLException{
-        Statement statement = connection.createStatement();
-        PreparedStatement query = connection.prepareStatement("Select Name from Roles where ID IN(SELECT RoleID FROM UsersRoles where UserID IN(Select ID from Users where Username='"+username+"'))");
+    private boolean checkRole(String username, String role) throws IOException, SQLException{
+        PreparedStatement query = connection.prepareStatement("SELECT Name FROM Roles WHERE ID IN(SELECT RoleID FROM UsersRoles WHERE UserID IN(SELECT ID FROM Users WHERE Username='"+username+"'))");
         ResultSet rs = query.executeQuery();
         while(rs.next()){
             if(role.equals(rs.getString("Name"))){
