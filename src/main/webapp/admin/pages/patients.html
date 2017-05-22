@@ -94,17 +94,8 @@
                         <div class="panel-body">
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-patient">
                                 <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Pesel</th>
-                                        <th>Name</th>
-                                        <th>Surname</th>
-                                        <th>Details</th>
-                                        
-                                    </tr>
                                 </thead>
                                 <tbody>
-                                    
                                 </tbody>
                             </table>
 
@@ -174,10 +165,10 @@
                 for (var i = 0, len = data.length; i < len; i++) {
                     var dataRow = new Array();
                     dataRow.push(data[i]["ID"]);
-                    dataRow.push(data[i]["Pesel"]);
-                    dataRow.push(data[i]["Name"]);
-                    dataRow.push(data[i]["Surname"]);
-                    dataRow.push("<a href=\"patient.html?id=" + data[i]["ID"] + "\">Click</a>");
+                    dataRow.push(data[i]["PESEL"]);
+                    dataRow.push(data[i]["Imię"]);
+                    dataRow.push(data[i]["Nazwisko"]);
+                    dataRow.push("<a href=\"patient.html?id=" + data[i]["ID"] + "\">Zobacz więcej</a>");
                     array.push(dataRow);
                 }
             
@@ -185,10 +176,10 @@
                     data: array,
                     columns: [
                         { title: "ID" },
-                        { title: "Pesel" },
-                        { title: "Name" },
-                        { title: "Surname" },
-                        { title: "Details" }
+                        { title: "PESEL" },
+                        { title: "Imię" },
+                        { title: "Nazwisko" },
+                        { title: "Szczegóły" }
                     ]
                 } ); 
             

@@ -58,7 +58,7 @@ public class PatientManager {
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList getPatients() throws SQLException {
         Connect();
-        PreparedStatement query = connection.prepareStatement("SELECT * FROM Patient");
+        PreparedStatement query = connection.prepareStatement("SELECT * FROM Osoba WHERE TypOsoby='Pacjent'");
         ResultSet rs = query.executeQuery();
         int iloscRol = 0;        
    
@@ -94,7 +94,7 @@ public class PatientManager {
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList getInfoAboutPatient(@PathParam("id") int id) throws SQLException {
         Connect();
-        PreparedStatement query = connection.prepareStatement("SELECT * FROM Patient where ID="+id);
+        PreparedStatement query = connection.prepareStatement("SELECT * FROM Osoba WHERE TypOsoby='Pacjent' AND ID="+id);
         ResultSet rs = query.executeQuery();
         
         ArrayList list=new ArrayList(1);

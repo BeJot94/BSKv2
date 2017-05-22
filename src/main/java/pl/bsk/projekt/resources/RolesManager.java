@@ -58,7 +58,7 @@ public class RolesManager {
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList getAllRoles() throws SQLException {
         Connect();
-        PreparedStatement query = connection.prepareStatement("SELECT * FROM Roles");
+        PreparedStatement query = connection.prepareStatement("SELECT * FROM Rola");
         ResultSet rs = query.executeQuery();
         int iloscRol = 0;        
    
@@ -94,7 +94,7 @@ public class RolesManager {
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList getRoleWithID(@PathParam("id") Integer id) throws SQLException {
         Connect();
-        PreparedStatement query = connection.prepareStatement("SELECT * FROM Roles WHERE ID='" + id + "';");
+        PreparedStatement query = connection.prepareStatement("SELECT * FROM Rola WHERE ID='" + id + "';");
         ResultSet rs = query.executeQuery();   
         ResultSetMetaData md = rs.getMetaData();
         int columns = md.getColumnCount();     
@@ -118,7 +118,7 @@ public class RolesManager {
     public void deleteRoleWithID(@PathParam("id") Integer id) throws SQLException, IOException {
         Connect();        
         Statement statement = connection.createStatement();
-        statement.executeUpdate("DELETE FROM Roles WHERE id = " + id.toString());               
+        statement.executeUpdate("DELETE FROM Rola WHERE ID = " + id.toString());               
         Disconnect();
         
         response.sendRedirect("../../../../admin/pages/roles.html");
@@ -132,7 +132,7 @@ public class RolesManager {
                             @FormParam("opisRoli") String about) throws SQLException, IOException {
         Connect();        
         Statement statement = connection.createStatement();
-        statement.executeUpdate("UPDATE Roles SET Name='" + name + "', About='" +
+        statement.executeUpdate("UPDATE Rola SET Nazwa='" + name + "', Opis='" +
                 about + "' WHERE ID = " + id.toString());           
         Disconnect();
         
@@ -148,7 +148,7 @@ public class RolesManager {
     {
         Connect();
         Statement statement = connection.createStatement();
-        statement.executeUpdate("INSERT INTO Roles VALUES ('" + name + "', '" + about + "')");
+        statement.executeUpdate("INSERT INTO Rola VALUES ('" + name + "', '" + about + "')");
 
         Disconnect();
         

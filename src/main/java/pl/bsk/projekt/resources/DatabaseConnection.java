@@ -13,7 +13,7 @@ public class DatabaseConnection {
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection("jdbc:sqlserver://localhost;databaseName=BSK_Test;integratedSecurity=true;");
+            connection = DriverManager.getConnection("jdbc:sqlserver://localhost;databaseName=BSK;integratedSecurity=true;");
         } catch (Exception e) {
             e.printStackTrace();
         }

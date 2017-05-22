@@ -50,21 +50,21 @@ public class Main {
     
     public String getRoles() throws IOException, SQLException {
         Connect();
-        PreparedStatement query = connection.prepareStatement("SELECT Name FROM Roles");
+        PreparedStatement query = connection.prepareStatement("SELECT Nazwa FROM Rola");
         ResultSet rs = query.executeQuery();
         
         while(rs.next()){
-            listOfRoles.add(rs.getString("Name"));
+            listOfRoles.add(rs.getString("Nazwa"));
         }
        return "aaa";
         
     }
     
     private boolean checkRole(String username, String role) throws IOException, SQLException{
-        PreparedStatement query = connection.prepareStatement("SELECT Name FROM Roles WHERE ID IN(SELECT RoleID FROM UsersRoles WHERE UserID IN(SELECT ID FROM Users WHERE Username='"+username+"'))");
+        PreparedStatement query = connection.prepareStatement("SELECT Nazwa FROM Rola WHERE ID IN(SELECT ID_Rola FROM RolaUżytkownika WHERE ID_Użytkownik IN(SELECT ID FROM Użytkownik WHERE Login='"+username+"'))");
         ResultSet rs = query.executeQuery();
         while(rs.next()){
-            if(role.equals(rs.getString("Name"))){
+            if(role.equals(rs.getString("Nazwa"))){
             return true;
             }
         }
@@ -125,42 +125,42 @@ public class Main {
         Connect();
         boolean isLoginSuccesfull = false;
         Statement statement = connection.createStatement();
-        PreparedStatement query = connection.prepareStatement("SELECT * FROM Users");
+        PreparedStatement query = connection.prepareStatement("SELECT * FROM Użytkownik");
         ResultSet rs = query.executeQuery();
         while(rs.next()) {
             // Sprawdzamy, czy jest już zalogowany z określoną rolą i jeśli tak, to z nią logujemy
-            if (username.equals(rs.getString("Username")) && password.equals(rs.getString("Password"))
-                    && !"null".equals(rs.getString("CurrentRole")) && !"NULL".equals(rs.getString("CurrentRole")))
+            if (username.equals(rs.getString("Login")) && password.equals(rs.getString("Hasło"))
+                    && !"null".equals(rs.getString("ObecnaRola")) && !"NULL".equals(rs.getString("ObecnaRola")))
             {
                 //sprawdzam czy posiada role, z którą próbuje się zalogować
-                if(checkRole(rs.getString("Username"),role)){
+                if(checkRole(rs.getString("Login"),role)){
                 
                     isLoginSuccesfull = true;
 
                     // Ustawiamy sesję dla danego użytkownika, jeżeli aktualnie jej nie ma
                     HttpSession session = req.getSession(true);
-                    session.setAttribute("user", rs.getString("Username"));
-                    session.setAttribute("role", rs.getString("CurrentRole"));
+                    session.setAttribute("user", rs.getString("Login"));
+                    session.setAttribute("role", rs.getString("ObecnaRola"));
 
                     Disconnect();
                     break;
                 }
             }
             // Sprawdzamy czy login i hasło się zgadzają.
-            else if (username.equals(rs.getString("Username")) && password.equals(rs.getString("Password"))){
+            else if (username.equals(rs.getString("Login")) && password.equals(rs.getString("Hasło"))){
                 // Jeśli aktualna rola (dla sesji użytkownika) się zgadza lub aktualnie nie ma roli (brak
                 // sesji) to logowanie poprawne.
-                if(role.equals(rs.getString("CurrentRole")) || "null".equals(rs.getString("CurrentRole")) || "NULL".equals(rs.getString("CurrentRole"))){
-                    if(checkRole(rs.getString("Username"),role)){    
+                if(role.equals(rs.getString("ObecnaRola")) || "null".equals(rs.getString("ObecnaRola")) || "NULL".equals(rs.getString("ObecnaRola"))){
+                    if(checkRole(rs.getString("Login"),role)){    
                         isLoginSuccesfull = true;
                         
                         // Ustawiamy sesję dla danego użytkownika
                         HttpSession session = req.getSession(true);
-                        session.setAttribute("user", rs.getString("Username"));
-                        session.setAttribute("role", rs.getString("CurrentRole"));
+                        session.setAttribute("user", rs.getString("Login"));
+                        session.setAttribute("role", rs.getString("ObecnaRola"));
                             
                         // Ustawiamy aktualną rolę  
-                        statement.executeUpdate("UPDATE Users SET CurrentRole = '" + role + "' WHERE ID = "
+                        statement.executeUpdate("UPDATE Użytkownik SET ObecnaRola = '" + role + "' WHERE ID = "
                                 + Integer.parseInt(rs.getString("ID")));
 
                         Disconnect();
@@ -189,18 +189,18 @@ public class Main {
         {
             Connect();
             Statement statement = connection.createStatement();
-            PreparedStatement query = connection.prepareStatement("SELECT * FROM Users WHERE Username='" +
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM Użytkownik WHERE Login='" +
                     user.toString() + "';");
             ResultSet rs = query.executeQuery();
             
             while(rs.next()) {
                 // Sprawdzamy, czy taki użytkownik istnieje w BD i czy jest aktualnie zalogowany
                 // (ma ustawioną aktualną rolę)
-                if (user.toString().equals(rs.getString("Username")) && rs.getString("CurrentRole") != "null")
+                if (user.toString().equals(rs.getString("Login")) && rs.getString("ObecnaRola") != "null")
                 {
                     // Jeśli znaleziono użytkownika, to ustawiamy jego aktualną rolę na null
-                    statement.executeUpdate("UPDATE Users SET CurrentRole = 'null' WHERE Username = '" + 
-                                    rs.getString("Username") + "';");
+                    statement.executeUpdate("UPDATE Użytkownik SET ObecnaRola = 'null' WHERE Login = '" + 
+                                    rs.getString("Login") + "';");
                     
                     // Usuwamy atrybut użytkownik z sesji
                     session.removeAttribute("user");

@@ -178,8 +178,8 @@
                 
                 $.getJSON('../../bsk/rolesmanager/roles/' + role_id, function (data) {
                     jQuery('input[id=ID]').attr('value', data[0]["ID"]);
-                    jQuery('input[id=nazwaRoli]').attr('value', data[0]["Name"]);
-                    document.getElementById("opisRoli").innerHTML = data[0]["About"];
+                    jQuery('input[id=nazwaRoli]').attr('value', data[0]["Nazwa"]);
+                    document.getElementById("opisRoli").innerHTML = data[0]["Opis"];
                 });
                 
             }

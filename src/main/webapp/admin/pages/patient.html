@@ -165,15 +165,15 @@
             });
             
         var id = get('id');    
-        $.getJSON('../../bsk/patientmanager/patients/'+id, function (data) {
-                document.getElementById("nameSurname").innerHTML = data[0]["Name"]+" "+data[0]["Surname"];
-                document.getElementById("name").innerHTML = "Imię: "+data[0]["Name"];
-                document.getElementById("surname").innerHTML = "Nazwisko "+data[0]["Surname"];
-                document.getElementById("pesel").innerHTML = "Pesel: "+data[0]["Pesel"];
-                document.getElementById("sex").innerHTML = "Płeć: "+data[0]["Pesel"];
-                document.getElementById("age").innerHTML = "Wiek: "+data[0]["Age"];
-                document.getElementById("phone").innerHTML = "Telefon: "+data[0]["Phone"];
-                document.getElementById("address").innerHTML = "Adres: "+data[0]["Adress"];
+        $.getJSON('../../bsk/patientmanager/patients/' + id, function (data) {
+                document.getElementById("nameSurname").innerHTML = data[0]["Imię"]+" "+data[0]["Nazwisko"];
+                document.getElementById("name").innerHTML = "Imię: "+data[0]["Imię"];
+                document.getElementById("surname").innerHTML = "Nazwisko "+data[0]["Nazwisko"];
+                document.getElementById("pesel").innerHTML = "Pesel: "+data[0]["PESEL"];
+                document.getElementById("sex").innerHTML = "Płeć: "+data[0]["Płeć"];
+                document.getElementById("age").innerHTML = "Data urodzenia: "+data[0]["DataUrodzenia"];
+                document.getElementById("phone").innerHTML = "Numer telefonu: "+data[0]["NumerTelefonu"];
+                document.getElementById("address").innerHTML = "Adres: "+data[0]["Adres"];
 
             
             
