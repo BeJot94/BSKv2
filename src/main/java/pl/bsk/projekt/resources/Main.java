@@ -48,17 +48,6 @@ public class Main {
         }
     }
     
-    public String getRoles() throws IOException, SQLException {
-        Connect();
-        PreparedStatement query = connection.prepareStatement("SELECT Nazwa FROM Rola");
-        ResultSet rs = query.executeQuery();
-        
-        while(rs.next()){
-            listOfRoles.add(rs.getString("Nazwa"));
-        }
-       return "aaa";
-        
-    }
     
     private boolean checkRole(String username, String role) throws IOException, SQLException{
         PreparedStatement query = connection.prepareStatement("SELECT Nazwa FROM Rola WHERE ID IN(SELECT ID_Rola FROM RolaUżytkownika WHERE ID_Użytkownik IN(SELECT ID FROM Użytkownik WHERE Login='"+username+"'))");
@@ -213,5 +202,22 @@ public class Main {
             
             response.sendRedirect("../login.html");
         }
+    }
+    
+    //zwraca wszystkie dostepne role
+    @GET
+    @Path("allroles")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList getRoles() throws SQLException {
+        Connect();
+        PreparedStatement query = connection.prepareStatement("SELECT Nazwa FROM Rola");
+        ResultSet rs = query.executeQuery();
+        ArrayList<String> list=new ArrayList<>();       
+        
+        while(rs.next())
+            list.add(rs.getString("Nazwa"));
+        
+        Disconnect();
+        return list;
     }
 }
