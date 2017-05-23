@@ -113,6 +113,65 @@ public class PeopleManager {
         return list;
     }
     
+    // Funkcja edytuje w bazie danych osobę o określonym ID.
+    @POST
+    @Path("person/{id}/edit")
+    public void editPersonWithID(@PathParam("id") Integer IDOsoba,
+                        @FormParam("imie") String imie,
+                        @FormParam("nazwisko") String nazwisko,
+                        @FormParam("pesel") String pesel,
+                        @FormParam("dataUrodzenia") String dataUrodzenia,
+                        @FormParam("plec") String plec,
+                        @FormParam("adres") String adres,
+                        @FormParam("telefon") String telefon,
+                        @FormParam("typOsoby") String typOsoby) throws IOException, SQLException
+    {
+        Connect();        
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("UPDATE Osoba SET Imię='" + imie + "', Nazwisko='" +
+                nazwisko + "', PESEL='" + pesel + "', DataUrodzenia='" + dataUrodzenia + 
+                "', Płeć='" + plec + "', Adres='" + adres + "', NumerTelefonu='" + telefon + 
+                "', TypOsoby='" + typOsoby + "' WHERE ID = " + IDOsoba);           
+        Disconnect();
+        
+        response.sendRedirect("../../../../admin/pages/people.html");
+    }
+    
+    // Funkcja do dodawania osoby
+    @POST
+    @Path("person/add")
+    public void addPerson(@FormParam("imie") String imie,
+                        @FormParam("nazwisko") String nazwisko,
+                        @FormParam("pesel") String pesel,
+                        @FormParam("dataUrodzenia") String dataUrodzenia,
+                        @FormParam("plec") String plec,
+                        @FormParam("adres") String adres,
+                        @FormParam("telefon") String telefon,
+                        @FormParam("typOsoby") String typOsoby) throws IOException, SQLException
+    {
+        Connect();
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("INSERT INTO Osoba VALUES (" + pesel
+                + ", '" + imie + "', '" + nazwisko + "', '" + plec + "', '" + dataUrodzenia + 
+                "', '" + adres + "', '" + telefon + "', '" + typOsoby + "');");
+
+        Disconnect();
+        
+        response.sendRedirect("../../../admin/pages/people.html");
+    }
+    
+    // Funkcja usuwa z bazy danych rolę o określonym ID.
+    @POST
+    @Path("person/{id}/delete")
+    public void deletePersonWithID(@PathParam("id") String IDOsoba) throws SQLException, IOException {
+        Connect();        
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("DELETE FROM Osoba WHERE ID = " + IDOsoba);               
+        Disconnect();
+        
+        response.sendRedirect("../../../../admin/pages/people.html");
+    }
+    
     // Funkcja edytuje w bazie danych użytkownika o określonym ID.
     @POST
     @Path("account/{id}/edit")
@@ -141,6 +200,18 @@ public class PeopleManager {
         statement.executeUpdate("INSERT INTO Użytkownik VALUES (" + IDOsoba
                 + ", '" + login + "', '" + haslo + "', null);");
 
+        Disconnect();
+        
+        response.sendRedirect("../../../../admin/pages/people.html");
+    }
+    
+    // Funkcja usuwa z bazy danych rolę o określonym ID.
+    @POST
+    @Path("account/{id}/delete")
+    public void deleteAccountWithID(@PathParam("id") String IDKonta) throws SQLException, IOException {
+        Connect();        
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("DELETE FROM Użytkownik WHERE ID = " + IDKonta);               
         Disconnect();
         
         response.sendRedirect("../../../../admin/pages/people.html");
