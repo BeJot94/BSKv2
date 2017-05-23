@@ -143,7 +143,20 @@
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
     
-    <script>
+    <script>        
+        function checkIfLogged()
+        {
+            $.ajax({
+                url: "../../bsk/login/check"
+            }).then(function(data) {
+                if(data === "unlogged")
+                {
+                    window.location.href = "../../";
+                }
+            });
+        }
+        window.onpaint = checkIfLogged();
+        
         function get(name) {
             if (getArg = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
                 return decodeURIComponent(getArg[1]);

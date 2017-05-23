@@ -122,7 +122,20 @@
     <script src="../dist/js/sb-admin-2.js"></script>
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
+    <script>        
+        function checkIfLogged()
+        {
+            $.ajax({
+                url: "../../bsk/login/check"
+            }).then(function(data) {
+                if(data === "unlogged")
+                {
+                    window.location.href = "../../";
+                }
+            });
+        }
+        window.onpaint = checkIfLogged();
+        
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
             responsive: true

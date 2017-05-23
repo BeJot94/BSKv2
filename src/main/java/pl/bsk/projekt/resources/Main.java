@@ -168,9 +168,10 @@ public class Main {
     // 2. Jeśli użytkownik nie jest zalogowany, zostaje przy oknie logowania.
     @GET
     @Path("login/check")
+    @Produces(MediaType.TEXT_PLAIN)
     public String checkIfLogged(@Context HttpServletRequest req) throws IOException {
         // Sprawdzamy, czy istnieje sesja dla użytkownika i jeśli tak to przerzucamy od razu do panelu
-        HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession(true);
         Object user = session.getAttribute("user");
         if(user != null)
            return "logged";
