@@ -12,8 +12,8 @@ public class DatabaseConnection {
         Connection connection = null;
 
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection("jdbc:sqlserver://localhost;databaseName=BSK;integratedSecurity=true;");
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+            connection = DriverManager.getConnection("jdbc:sqlserver://mssql5.gear.host:1433;databaseName=bsk", "bsk", "123456!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -21,3 +21,4 @@ public class DatabaseConnection {
         return connection;
     }
 }
+

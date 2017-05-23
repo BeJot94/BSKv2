@@ -95,7 +95,7 @@ public class Main {
                     "<a href=\"patients.html\"><i class=\"fa fa-table fa-fw\"></i> Pacjenci</a>" + 
                 "</li>" + 
                 "<li>" + 
-                    "<a href=\"#\"><i class=\"fa fa-cog fa-fw\"></i> Osoby<span class=\"fa arrow\"></span></a>" + 
+                    "<a href=\"#\"><i class=\"fa fa-users  fa-fw\"></i> Osoby<span class=\"fa arrow\"></span></a>" + 
                         "<ul class=\"nav nav-second-level\">" + 
                             "<li>" + 
                                 "<a href=\"people.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj osoby</a>" + 

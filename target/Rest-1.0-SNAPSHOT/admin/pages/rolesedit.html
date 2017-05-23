@@ -90,19 +90,79 @@
                                             <label>Opis roli</label>
                                             <textarea class="form-control" id="opisRoli" name="opisRoli" placeholder="Tutaj podaj opis roli" rows="3"></textarea>
                                         </div>
-                                        <!--<div class="form-group">
+                                        <div class="form-group">
                                             <label>Uprawnienia roli:</label>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" value="">Wyświetlanie ról
+                                                    <input type="checkbox" value="wRol" id="wRol" name="wRol">Wyświetlanie ról
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" value="">Modyfikacja ról
+                                                    <input type="checkbox" value="mRol" id="mRol" name="mRol">Modyfikacja ról
                                                 </label>
                                             </div>
-                                        </div> -->
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="wOsob" id="wOsob" name="wOsob">Wyświetlanie osób
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="mOsob" id="mOsob" name="mOsob">Modyfikacja osób
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="wPacjentow" id="wPacjentow" name="wPacjentow">Wyświetlanie pacjentów
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="mPacjentow" id="mPacjentow" name="mPacjentow">Modyfikacja pacjentów
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="wUzytkownikow" id="wUzytkownikow" name="wUzytkownikow">Wyświetlanie użytkowników
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="mUzytkownikow" id="mUzytkownikow" name="mUzytkownikow">Modyfikacja użytkowników
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="wRejestracji" id="wRejestracji" name="wRejestracji">Wyświetlanie rejestracji
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="mRejestracji" id="mRejestracji" name="mRejestracji">Modyfikacja rejestracji
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="wHistorii" id="wHistorii" name="wHistorii">Wyświetlanie historii leczenia
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="mHistorii" id="mHistorii" name="mHistorii">Modyfikacja historii leczenia
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="wWizyt" id="wWizyt" name="wWizyt">Wyświetlanie wizyt
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="mWizyt" id="mWizyt" name="mWizyt">Modyfikacja wizyt
+                                                </label>
+                                            </div>
+                                        </div>
                                         <button type="submit" class="btn btn-default" id="submitButton"></button>
                                     </form>
                                 </div>
@@ -163,6 +223,34 @@
                     jQuery('input[id=ID]').attr('value', data[0]["ID"]);
                     jQuery('input[id=nazwaRoli]').attr('value', data[0]["Nazwa"]);
                     document.getElementById("opisRoli").innerHTML = data[0]["Opis"];
+                    if(data[0]["RolaWyświetlanie"])
+                        jQuery('input[id=wRol]').attr('checked', 'checked');
+                    if(data[0]["RolaModyfikacja"])
+                        jQuery('input[id=mRol]').attr('checked', 'checked');
+                    if(data[0]["OsobaWyświetlanie"])
+                        jQuery('input[id=wOsob]').attr('checked', 'checked');
+                    if(data[0]["OsobaModyfikacja"])
+                        jQuery('input[id=mOsob]').attr('checked', 'checked');
+                    if(data[0]["PacjentWyświetlanie"])
+                        jQuery('input[id=wPacjentow]').attr('checked', 'checked');
+                    if(data[0]["PacjentModyfikacja"])
+                        jQuery('input[id=mPacjentow]').attr('checked', 'checked');
+                    if(data[0]["UżytkownikWyświetlanie"])
+                        jQuery('input[id=wUzytkownikow]').attr('checked', 'checked');
+                    if(data[0]["UżytkownikModyfikacja"])
+                        jQuery('input[id=mUzytkownikow]').attr('checked', 'checked');
+                    if(data[0]["RejestracjaWyświetlanie"])
+                        jQuery('input[id=wRejestracji]').attr('checked', 'checked');
+                    if(data[0]["RejestracjaModyfikacja"])
+                        jQuery('input[id=mRejestracji]').attr('checked', 'checked');
+                    if(data[0]["HistoriaLeczeniaWyświetlanie"])
+                        jQuery('input[id=wHistorii]').attr('checked', 'checked');
+                    if(data[0]["HistoriaLeczeniaModyfikacja"])
+                        jQuery('input[id=mHistorii]').attr('checked', 'checked'); 
+                    if(data[0]["WizytaWyświetlanie"])
+                        jQuery('input[id=wWizyt]').attr('checked', 'checked');
+                    if(data[0]["WizytaModyfikacja"])
+                        jQuery('input[id=mWizyt]').attr('checked', 'checked');                        
                 });
                 
             }
