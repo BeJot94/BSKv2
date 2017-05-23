@@ -163,13 +163,37 @@ public class PeopleManager {
     // Funkcja usuwa z bazy danych rolę o określonym ID.
     @POST
     @Path("person/{id}/delete")
-    public void deletePersonWithID(@PathParam("id") String IDOsoba) throws SQLException, IOException {
+    public void deletePersonWithID(@PathParam("id") Integer IDOsoba) throws SQLException, IOException {
         Connect();        
         Statement statement = connection.createStatement();
-        statement.executeUpdate("DELETE FROM Osoba WHERE ID = " + IDOsoba);               
+        PreparedStatement query = connection.prepareStatement("SELECT Osoba.ID as 'oID', "
+                + "* FROM Osoba LEFT JOIN Użytkownik on Osoba.ID = Użytkownik.ID_Osoba "
+                + "WHERE Osoba.ID=" + IDOsoba);
+        ResultSet rs = query.executeQuery();
+        
+        String login = rs.getString("Login");
+        if(login != null){
+            statement.executeUpdate("DELETE FROM Użytkownik WHERE ID = " + rs.getString("ID"));   
+        }
+        statement.executeUpdate("DELETE FROM Osoba WHERE ID = " + IDOsoba.toString());               
         Disconnect();
         
         response.sendRedirect("../../../../admin/pages/people.html");
+    }
+    
+    // Funkcja usuwa z bazy danych rolę o określonym ID i loginie konta użytkownika.
+    @POST
+    @Path("person/{idosoba}/delete/{idkonto}")
+    public void deletePersonWithIDAndLogin(@PathParam("idosoba") Integer IDOsoba,
+                                           @PathParam("idkonto") Integer IDKonto) throws SQLException, IOException {
+        Connect();        
+        Statement statement = connection.createStatement();
+        
+        statement.executeUpdate("DELETE FROM Użytkownik WHERE ID = " + IDKonto.toString());
+        statement.executeUpdate("DELETE FROM Osoba WHERE ID = " + IDOsoba.toString());               
+        Disconnect();
+        
+        response.sendRedirect("../../../../../admin/pages/people.html");
     }
     
     // Funkcja edytuje w bazie danych użytkownika o określonym ID.

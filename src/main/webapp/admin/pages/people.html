@@ -151,7 +151,7 @@
                     dataRow.push("<a href=\"personedit.html?person=" + data[i]["oID"] + "\">Edytuj osobę</a>");
                     dataRow.push("<a href=\"accountedit.html?new=no&account=" + data[i]["oID"] + "\">Edytuj konto</a>");
                     dataRow.push("<form id=\"delete-form\" action=\"../../bsk/peoplemanager/person/" + data[i]["oID"] + 
-                        "/delete\" method=\"post\"><button type=\"submit\">Usuń osobę</button></form>");
+                        "/delete/" + data[i]["ID"] + "\" method=\"post\"><button type=\"submit\">Usuń osobę</button></form>");
                     dataRow.push("<form id=\"delete-form\" action=\"../../bsk/peoplemanager/account/" + data[i]["ID"] + 
                         "/delete\" method=\"post\"><button type=\"submit\">Usuń konto</button></form>");
                 } else {
