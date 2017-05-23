@@ -90,11 +90,35 @@ public class RolesManager {
     
     // Funkcja pobiera z bazy danych informacje o określonej po ID roli.
     @GET
-    @Path("roles/{id:[0-9]+}")
+    @Path("roles/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList getRoleWithID(@PathParam("id") Integer id) throws SQLException {
         Connect();
         PreparedStatement query = connection.prepareStatement("SELECT * FROM Rola WHERE ID='" + id + "';");
+        ResultSet rs = query.executeQuery();   
+        ResultSetMetaData md = rs.getMetaData();
+        int columns = md.getColumnCount();     
+        ArrayList list = new ArrayList();
+        
+        if (rs.next())
+        {
+            HashMap row = new HashMap(columns);
+            for (int i = 1; i <= columns; ++i)
+                row.put(md.getColumnName(i), rs.getObject(i));
+            list.add(row);
+        }
+               
+        Disconnect();
+        return list;
+    }
+    
+    // Funkcja pobiera z bazy danych informacje o określonej po ID roli.
+    @GET
+    @Path("role/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList getRoleWithName(@PathParam("name") String name) throws SQLException {
+        Connect();
+        PreparedStatement query = connection.prepareStatement("SELECT * FROM Rola WHERE Nazwa='" + name + "';");
         ResultSet rs = query.executeQuery();   
         ResultSetMetaData md = rs.getMetaData();
         int columns = md.getColumnCount();     

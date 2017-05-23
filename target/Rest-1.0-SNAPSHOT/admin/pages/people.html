@@ -152,49 +152,88 @@
                 }).then(function(data) {
                     $(".miejsceNaMenu").html(data);  
                 });
+                
+                var rola = data2[0]["ObecnaRola"];
+                $.getJSON('../../bsk/rolesmanager/role/' + rola, function (data3) {
+                    $.getJSON('../../bsk/peoplemanager/people/all', function (data4) {
+                        var array = new Array();
+                        for (var i = 0, len = data4.length; i < len; i++) {
+                            var dataRow = new Array();
+                            dataRow.push(data4[i]["Imię"]);
+                            dataRow.push(data4[i]["Nazwisko"]);
+                            if(data4[i]["Login"] !== null){
+                                if(data3[0]["UżytkownikWyświetlanie"] == true) {
+                                    dataRow.push("Tak");
+                                    dataRow.push(data4[i]["Login"]);
+                                } else {
+                                    dataRow.push("");
+                                    dataRow.push("");
+                                }                                
+                                if(data3[0]["OsobaModyfikacja"] == true) {
+                                    dataRow.push("<a href=\"personedit.html?person=" + data4[i]["oID"] + "\">Edytuj osobę</a>");
+                                } else {
+                                    dataRow.push("");
+                                }                  
+                                if(data3[0]["UżytkownikModyfikacja"] == true) {
+                                    dataRow.push("<a href=\"accountedit.html?new=no&account=" + data4[i]["oID"] + "\">Edytuj konto</a>");
+                                } else {
+                                    dataRow.push("");
+                                }               
+                                if(data3[0]["OsobaModyfikacja"] == true) {
+                                    dataRow.push("<form id=\"delete-form\" action=\"../../bsk/peoplemanager/person/" + data4[i]["oID"] + 
+                                        "/delete/" + data4[i]["ID"] + "\" method=\"post\"><button type=\"submit\">Usuń osobę</button></form>");
+                                } else {
+                                    dataRow.push("");
+                                }                  
+                                if(data3[0]["UżytkownikModyfikacja"] == true) {
+                                    dataRow.push("<form id=\"delete-form\" action=\"../../bsk/peoplemanager/account/" + data4[i]["ID"] + 
+                                        "/delete\" method=\"post\"><button type=\"submit\">Usuń konto</button></form>");
+                                } else {
+                                    dataRow.push("");
+                                }
+                            } else {
+                                if(data3[0]["UżytkownikWyświetlanie"] == true) {
+                                    dataRow.push("Nie");
+                                } else {
+                                    dataRow.push("");
+                                }
+                                dataRow.push(""); 
+                                if(data3[0]["OsobaModyfikacja"] == true) {
+                                    dataRow.push("<a href=\"personedit.html?person=" + data4[i]["oID"] + "\">Edytuj osobę</a>");
+                                } else {
+                                    dataRow.push("");
+                                }   
+                                if(data3[0]["UżytkownikModyfikacja"] == true) {
+                                    dataRow.push("<a href=\"accountedit.html?new=yes&account=" + data4[i]["oID"] + "\">Załóż konto</a>");
+                                } else {
+                                    dataRow.push("");
+                                }      
+                                if(data3[0]["OsobaModyfikacja"] == true) {
+                                    dataRow.push("<form id=\"delete-form\" action=\"../../bsk/peoplemanager/person/" + data4[i]["oID"] + 
+                                        "/delete\" method=\"post\"><button type=\"submit\">Usuń osobę</button></form>");
+                                } else {
+                                    dataRow.push("");
+                                }
+                                dataRow.push("");
+                            }
+                            array.push(dataRow);
+                        }
+
+                        $('#dataTables-roles').DataTable( {
+                            data: array,
+                            columns: [
+                                { title: "Imię" },
+                                { title: "Nazwisko" },
+                                { title: "Posiada konto?" },
+                                { title: "Login" },
+                                { title: "Edycja osoby" },
+                                { title: "Edycja konta" },
+                                { title: "Usuwanie osoby" },
+                                { title: "Usuwanie konta" }]
+                        });
+                    });
+                });
             });
-        });
-        
-        $.getJSON('../../bsk/peoplemanager/people/all', function (data) {
-            var array = new Array();
-            for (var i = 0, len = data.length; i < len; i++) {
-                var dataRow = new Array();
-                dataRow.push(data[i]["Imię"]);
-                dataRow.push(data[i]["Nazwisko"]);
-                if(data[i]["Login"] !== null){
-                    dataRow.push("Tak");
-                    dataRow.push(data[i]["Login"]);
-                    dataRow.push("<a href=\"personedit.html?person=" + data[i]["oID"] + "\">Edytuj osobę</a>");
-                    dataRow.push("<a href=\"accountedit.html?new=no&account=" + data[i]["oID"] + "\">Edytuj konto</a>");
-                    dataRow.push("<form id=\"delete-form\" action=\"../../bsk/peoplemanager/person/" + data[i]["oID"] + 
-                        "/delete/" + data[i]["ID"] + "\" method=\"post\"><button type=\"submit\">Usuń osobę</button></form>");
-                    dataRow.push("<form id=\"delete-form\" action=\"../../bsk/peoplemanager/account/" + data[i]["ID"] + 
-                        "/delete\" method=\"post\"><button type=\"submit\">Usuń konto</button></form>");
-                } else {
-                    dataRow.push("Nie");
-                    dataRow.push(""); 
-                    dataRow.push("<a href=\"personedit.html?person=" + data[i]["oID"] + "\">Edytuj osobę</a>");
-                    dataRow.push("<a href=\"accountedit.html?new=yes&account=" + data[i]["oID"] + "\">Załóż konto</a>");
-                    dataRow.push("<form id=\"delete-form\" action=\"../../bsk/peoplemanager/person/" + data[i]["oID"] + 
-                        "/delete\" method=\"post\"><button type=\"submit\">Usuń osobę</button></form>");
-                    dataRow.push("");
-                }
-                array.push(dataRow);
-            }
-            
-            $('#dataTables-roles').DataTable( {
-                data: array,
-                columns: [
-                    { title: "Imię" },
-                    { title: "Nazwisko" },
-                    { title: "Posiada konto?" },
-                    { title: "Login" },
-                    { title: "Edycja osoby" },
-                    { title: "Edycja konta" },
-                    { title: "Usuwanie osoby" },
-                    { title: "Usuwanie konta" }
-            ]
-            } );
         });
     });
     </script>
