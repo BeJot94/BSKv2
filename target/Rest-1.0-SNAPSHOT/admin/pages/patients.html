@@ -143,14 +143,17 @@
         });       
             
         $.getJSON('../../bsk/login/info/all', function (data) {
-                var tekst = "<a href=\"#\">Zalogowany: " + data[0] + " | rola: " + data[1] + "</a>";
-                $(".daneUzytkownika").html(tekst);                
+            var login = data[0].toString();
+            $.getJSON('../../bsk/peoplemanager/account/' + login, function (data2) {
+                var tekst = "<a href=\"#\">Zalogowany: " + login + " | rola: " + data2[0]["ObecnaRola"] + "</a>"
+                $(".daneUzytkownika").html(tekst);
+
+                $.ajax({
+                    url: "../../bsk/menu/" + data2[0]["ObecnaRola"]
+                }).then(function(data) {
+                    $(".miejsceNaMenu").html(data);  
+                });
             });
-            
-        $.ajax({
-            url: "../../bsk/menu"
-        }).then(function(data) {
-            $(".miejsceNaMenu").html(data);  
         });
             
         $.getJSON('../../bsk/patientmanager/patients/all', function (data) {
@@ -176,15 +179,8 @@
                         { title: "Szczegóły" }
                     ]
                 } ); 
-            
-            
             });
-            
-
-        
-        
-
-    });
+        });
     </script>
 
 </body>

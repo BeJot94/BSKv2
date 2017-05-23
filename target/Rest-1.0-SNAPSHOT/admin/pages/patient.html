@@ -147,36 +147,31 @@
             responsive: true
         });       
             
-        $.ajax({
-            url: "../../bsk/menu"
-        }).then(function(data) {
-            $(".miejsceNaMenu").html(data);  
-        });
-            
         $.getJSON('../../bsk/login/info/all', function (data) {
-                var tekst = "<a href=\"#\">Zalogowany: " + data[0] + " | rola: " + data[1] + "</a>";
-                $(".daneUzytkownika").html(tekst);                
+            var login = data[0].toString();
+            $.getJSON('../../bsk/peoplemanager/account/' + login, function (data2) {
+                var tekst = "<a href=\"#\">Zalogowany: " + login + " | rola: " + data2[0]["ObecnaRola"] + "</a>"
+                $(".daneUzytkownika").html(tekst);
+
+                $.ajax({
+                    url: "../../bsk/menu/" + data2[0]["ObecnaRola"]
+                }).then(function(data) {
+                    $(".miejsceNaMenu").html(data);  
+                });
             });
+        });
             
         var id = get('id');    
         $.getJSON('../../bsk/patientmanager/patients/' + id, function (data) {
-                document.getElementById("nameSurname").innerHTML = data[0]["Imię"]+" "+data[0]["Nazwisko"];
-                document.getElementById("name").innerHTML = "Imię: "+data[0]["Imię"];
-                document.getElementById("surname").innerHTML = "Nazwisko "+data[0]["Nazwisko"];
-                document.getElementById("pesel").innerHTML = "Pesel: "+data[0]["PESEL"];
-                document.getElementById("sex").innerHTML = "Płeć: "+data[0]["Płeć"];
-                document.getElementById("age").innerHTML = "Data urodzenia: "+data[0]["DataUrodzenia"];
-                document.getElementById("phone").innerHTML = "Numer telefonu: "+data[0]["NumerTelefonu"];
-                document.getElementById("address").innerHTML = "Adres: "+data[0]["Adres"];
-
-            
-            
-            });
-            
-
-        
-        
-
+            document.getElementById("nameSurname").innerHTML = data[0]["Imię"]+" "+data[0]["Nazwisko"];
+            document.getElementById("name").innerHTML = "Imię: "+data[0]["Imię"];
+            document.getElementById("surname").innerHTML = "Nazwisko "+data[0]["Nazwisko"];
+            document.getElementById("pesel").innerHTML = "Pesel: "+data[0]["PESEL"];
+            document.getElementById("sex").innerHTML = "Płeć: "+data[0]["Płeć"];
+            document.getElementById("age").innerHTML = "Data urodzenia: "+data[0]["DataUrodzenia"];
+            document.getElementById("phone").innerHTML = "Numer telefonu: "+data[0]["NumerTelefonu"];
+            document.getElementById("address").innerHTML = "Adres: "+data[0]["Adres"];
+        });
     });
     </script>
 

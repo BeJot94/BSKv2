@@ -13,7 +13,7 @@ public class DatabaseConnection {
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
-            connection = DriverManager.getConnection("jdbc:sqlserver://mssql5.gear.host:1433;databaseName=bsk", "bsk", "123456!");
+            connection = DriverManager.getConnection("jdbc:sqlserver://mssql5.gear.host:1433;databaseName=bsk", "bsk", "123456!");            
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.*;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
@@ -72,41 +73,94 @@ public class Main {
     }
     
     @GET
-    @Path("menu")
+    @Path("menu/{role}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getMenu() {
-    return "<ul class=\"nav\" id=\"side-menu\">" + 
+    public String getMenu(@PathParam("role") String role) throws SQLException {
+        Connect();
+        PreparedStatement query = connection.prepareStatement("SELECT ID FROM Rola WHERE Nazwa='" + role + "';");
+        ResultSet rs = query.executeQuery();   
+        ResultSetMetaData md = rs.getMetaData();
+        int columns = md.getColumnCount();     
+        String menu = "";
+        
+        if(rs.next() && columns == 1)
+        {
+            
+            query = connection.prepareStatement("SELECT * FROM Rola WHERE ID=" + rs.getObject(1).toString() + ";");
+            rs = query.executeQuery();   
+            md = rs.getMetaData();
+            columns = md.getColumnCount(); 
+            HashMap row = new HashMap(columns);
+
+            if (rs.next())
+            {            
+                for (int i = 1; i <= columns; ++i)
+                    row.put(md.getColumnName(i), rs.getObject(i));
+            }
+
+            Disconnect();
+
+            // FORMUŁOWANIE MENU
+            menu = "<ul class=\"nav\" id=\"side-menu\">" + 
                 "<li>" + 
                     "<a href=\"index.html\"><i class=\"fa fa-dashboard fa-fw\"></i> Strona główna</a>" + 
-                "</li>" + 
-                "<li>" + 
+                "</li>";
+
+            if(row.get("RolaWyświetlanie").toString().equals("true") || row.get("RolaModyfikacja").toString().equals("true"))
+            {
+                menu += "<li>" + 
                     "<a href=\"#\"><i class=\"fa fa-cog fa-fw\"></i> Role<span class=\"fa arrow\"></span></a>" + 
-                        "<ul class=\"nav nav-second-level\">" + 
-                            "<li>" + 
+                        "<ul class=\"nav nav-second-level\">";
+                if(row.get("RolaWyświetlanie").toString().equals("true"))
+                {
+                    menu += "<li>" + 
                                 "<a href=\"roles.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj role</a>" + 
-                            "</li>" + 
-                            "<li>" + 
+                            "</li>";
+                }
+                if(row.get("RolaModyfikacja").toString().equals("true"))
+                {
+                    menu += "<li>" + 
                                 "<a href=\"rolesedit.html\"><i class=\"fa fa-plus-square fa-fw\"></i> Dodaj rolę</a>" + 
-                            "</li>" + 
-                        "</ul>" + 
+                            "</li>";
+                }
+                menu += "</ul>" + 
                     "<!-- /.nav-second-level -->" + 
-                "</li>" + 
-                "<li>" + 
+                "</li>";            
+            }
+
+            if(row.get("PacjentWyświetlanie").toString().equals("true"))
+            {
+                menu += "<li>" + 
                     "<a href=\"patients.html\"><i class=\"fa fa-table fa-fw\"></i> Pacjenci</a>" + 
-                "</li>" + 
-                "<li>" + 
+                "</li>";
+            }
+
+            if(row.get("OsobaWyświetlanie").toString().equals("true") || row.get("OsobaModyfikacja").toString().equals("true"))
+            {
+                menu += "<li>" + 
                     "<a href=\"#\"><i class=\"fa fa-users  fa-fw\"></i> Osoby<span class=\"fa arrow\"></span></a>" + 
-                        "<ul class=\"nav nav-second-level\">" + 
-                            "<li>" + 
+                        "<ul class=\"nav nav-second-level\">";
+                if(row.get("OsobaWyświetlanie").toString().equals("true"))
+                {
+                    menu += "<li>" + 
                                 "<a href=\"people.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj osoby</a>" + 
-                            "</li>" + 
-                            "<li>" + 
+                            "</li>";
+                }
+                if(row.get("OsobaModyfikacja").toString().equals("true"))
+                {
+                    menu += "<li>" + 
                                 "<a href=\"personedit.html\"><i class=\"fa fa-plus-square fa-fw\"></i> Dodaj osobę</a>" + 
-                            "</li>" + 
-                        "</ul>" + 
+                            "</li>";
+                }
+                menu += "</ul>" + 
                     "<!-- /.nav-second-level -->" + 
-                "</li>" + 
-            "</ul>";
+                "</li>";
+            }
+
+            menu += "</ul>";
+        }
+        
+        return menu;
     }
     
     // Funkcja uruchamiana w momencie wchodzenia na stronę logowania.

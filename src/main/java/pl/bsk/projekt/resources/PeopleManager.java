@@ -88,7 +88,7 @@ public class PeopleManager {
         return list;
     }
     
-    //Zwraca info o wybranym pacjencie
+    //Zwraca info o wybranej osobie
     @GET
     @Path("person/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -108,6 +108,30 @@ public class PeopleManager {
         list.add(row);
         }
         
+        
+        Disconnect();
+        return list;
+    }
+    
+    //Zwraca info o wybranym użytkowniku
+    @GET
+    @Path("account/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList getInfoAboutAccount(@PathParam("name") String name) throws SQLException {
+        Connect();
+        PreparedStatement query = connection.prepareStatement("SELECT * FROM Użytkownik WHERE Login='" + name + "'");
+        ResultSet rs = query.executeQuery();
+        
+        ArrayList list=new ArrayList(1);
+        ResultSetMetaData md = rs.getMetaData();
+        int columns = md.getColumnCount();
+        
+        while(rs.next()){
+        HashMap row = new HashMap(columns);   
+        for (int i = 1; i <= columns; ++i)
+            row.put(md.getColumnName(i), rs.getObject(i));
+        list.add(row);
+        }        
         
         Disconnect();
         return list;
