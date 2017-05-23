@@ -59,24 +59,7 @@
             <!-- /.navbar-top-links -->
 
             <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Strona główna</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-cog fa-fw"></i> Role<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="roles.html"><i class="fa fa-table fa-fw"></i> Przeglądaj role</a>
-                                </li>
-                                <li>
-                                    <a href="rolesedit.html"><i class="fa fa-plus-square fa-fw"></i> Dodaj rolę</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                    </ul>
+                <div class="sidebar-nav navbar-collapse miejsceNaMenu">                    
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
@@ -143,7 +126,13 @@
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
             responsive: true
+        });            
+        $.ajax({
+            url: "../../bsk/menu"
+        }).then(function(data) {
+            $(".miejsceNaMenu").html(data);  
         });
+
         
         $.getJSON('../../bsk/login/info/all', function (data) {
                 var tekst = "<a href=\"#\">Zalogowany: " + data[0] + " | rola: " + data[1] + "</a>";

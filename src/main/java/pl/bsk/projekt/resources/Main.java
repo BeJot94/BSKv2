@@ -71,6 +71,13 @@ public class Main {
         return "Hello world!";
     }
     
+    @GET
+    @Path("menu")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getMenu() {
+    return "<ul class=\"nav\" id=\"side-menu\">" + "<li>" + "<a href=\"index.html\"><i class=\"fa fa-dashboard fa-fw\"></i> Strona główna</a>" + "</li>" + "<li>" + "<a href=\"#\"><i class=\"fa fa-cog fa-fw\"></i> Role<span class=\"fa arrow\"></span></a>" + "<ul class=\"nav nav-second-level\">" + "<li>" + "<a href=\"roles.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj role</a>" + "</li>" + "<li>" + "<a href=\"rolesedit.html\"><i class=\"fa fa-plus-square fa-fw\"></i> Dodaj rolę</a>" + "</li>" + "</ul>" + "<!-- /.nav-second-level -->" + "</li>" + "<li>" + "<a href=\"patients.html\"><i class=\"fa fa-table fa-fw\"></i> Pacjenci</a>" + "</li>" + "<li>" + "<a href=\"#\"><i class=\"fa fa-cog fa-fw\"></i> Osoby<span class=\"fa arrow\"></span></a>" + "<ul class=\"nav nav-second-level\">" + "<li>" + "<a href=\"people.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj osoby</a>" + "</li>" + "<li>" + "<a href=\"#\"><i class=\"fa fa-plus-square fa-fw\"></i> Dodaj osobę</a>" + "</li>" + "</ul>" + "<!-- /.nav-second-level -->" + "</li>" + "</ul>";
+    }
+    
     // Funkcja uruchamiana w momencie wchodzenia na stronę logowania.
     // 1. Jeśli użytkownik jest już zalogowany, to przerzuca do panelu.
     // 2. Jeśli użytkownik nie jest zalogowany, zostaje przy oknie logowania.

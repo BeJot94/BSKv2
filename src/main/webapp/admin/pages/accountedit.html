@@ -56,8 +56,7 @@
             <!-- /.navbar-top-links -->
 
             <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse miejsceNaMenu">
-                    
+                <div class="sidebar-nav navbar-collapse miejsceNaMenu">                    
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
@@ -191,7 +190,7 @@
             });
             
             $.ajax({
-                url: "http://localhost:8084/rest/bsk/menu"
+                url: "../../bsk/menu"
             }).then(function(data) {
                 $(".miejsceNaMenu").html(data);  
             });
