@@ -69,7 +69,8 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header,form-control" id="nameSurname"></h1>                 
+                    <h1 class="page-header,form-control" id="nameSurname"></h1> 
+                    
                 </div>
                 </div>
                 <!-- /.col-lg-12 -->
@@ -80,6 +81,7 @@
                     <div class="panel panel-default">
                         <!-- /.panel-heading -->
                         <div class="panel-body">
+                            <div style="float:left; width:50%;">
                             <p class="timeline-title,form-control" id="name"/>
                             <p class="timeline-title,form-control" id="surname"/>
                             <p class="timeline-title,form-control" id="pesel"/>
@@ -87,6 +89,13 @@
                             <p class="timeline-title,form-control" id="sex"/>
                             <p class="timeline-title,form-control" id="phone"/>
                             <p class="timeline-title,form-control" id="address"/>
+                            </div>
+                            <div style="float:left; width:50%;">
+                                <p class="form-control" id="register"></p>
+                            </div>
+                            <div style="float:left; width:50%;">
+                                <p class="form-control" id="newVisit"></p>
+                            </div>
                             <!-- /.table-responsive -->
                             
                             <!-- Jakieś informacje, może się przyda na kiedyś
@@ -127,20 +136,7 @@
     <script src="../dist/js/sb-admin-2.js"></script>
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>         
-        function checkIfLogged()
-        {
-            $.ajax({
-                url: "../../bsk/login/check"
-            }).then(function(data) {
-                if(data === "unlogged")
-                {
-                    window.location.href = "../../";
-                }
-            });
-        }
-        window.onpaint = checkIfLogged();
-        
+    <script> 
     function popup(url,id) {   
 
       var id='id='+idValue;
@@ -160,31 +156,38 @@
             responsive: true
         });       
             
-        $.getJSON('../../bsk/login/info/all', function (data) {
-            var login = data[0].toString();
-            $.getJSON('../../bsk/peoplemanager/account/' + login, function (data2) {
-                var tekst = "<a href=\"#\">Zalogowany: " + login + " | rola: " + data2[0]["ObecnaRola"] + "</a>"
-                $(".daneUzytkownika").html(tekst);
-
-                $.ajax({
-                    url: "../../bsk/menu/" + data2[0]["ObecnaRola"]
-                }).then(function(data) {
-                    $(".miejsceNaMenu").html(data);  
-                });
-            });
+        $.ajax({
+            url: "../../bsk/menu"
+        }).then(function(data) {
+            $(".miejsceNaMenu").html(data);  
         });
+            
+        $.getJSON('../../bsk/login/info/all', function (data) {
+                var tekst = "<a href=\"#\">Zalogowany: " + data[0] + " | rola: " + data[1] + "</a>";
+                $(".daneUzytkownika").html(tekst);                
+            });
             
         var id = get('id');    
         $.getJSON('../../bsk/patientmanager/patients/' + id, function (data) {
-            document.getElementById("nameSurname").innerHTML = data[0]["Imię"]+" "+data[0]["Nazwisko"];
-            document.getElementById("name").innerHTML = "Imię: "+data[0]["Imię"];
-            document.getElementById("surname").innerHTML = "Nazwisko "+data[0]["Nazwisko"];
-            document.getElementById("pesel").innerHTML = "Pesel: "+data[0]["PESEL"];
-            document.getElementById("sex").innerHTML = "Płeć: "+data[0]["Płeć"];
-            document.getElementById("age").innerHTML = "Data urodzenia: "+data[0]["DataUrodzenia"];
-            document.getElementById("phone").innerHTML = "Numer telefonu: "+data[0]["NumerTelefonu"];
-            document.getElementById("address").innerHTML = "Adres: "+data[0]["Adres"];
-        });
+                document.getElementById("nameSurname").innerHTML = data[0]["Imię"]+" "+data[0]["Nazwisko"];
+                document.getElementById("name").innerHTML = "Imię: "+data[0]["Imię"];
+                document.getElementById("surname").innerHTML = "Nazwisko "+data[0]["Nazwisko"];
+                document.getElementById("pesel").innerHTML = "Pesel: "+data[0]["PESEL"];
+                document.getElementById("sex").innerHTML = "Płeć: "+data[0]["Płeć"];
+                document.getElementById("age").innerHTML = "Data urodzenia: "+data[0]["DataUrodzenia"];
+                document.getElementById("phone").innerHTML = "Numer telefonu: "+data[0]["NumerTelefonu"];
+                document.getElementById("address").innerHTML = "Adres: "+data[0]["Adres"];
+                
+                document.getElementById("register").innerHTML="<a href=\"registration.html?id=" + id + "\"><center> Umów wizytę</center></a>";
+                document.getElementById("newVisit").innerHTML="<a href=\"visit.html?id=" + id + "\"><center> Przyjmij pacjenta</center></a>";
+            
+            
+            });
+            
+
+        
+        
+
     });
     </script>
 
