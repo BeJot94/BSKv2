@@ -140,9 +140,18 @@
     <script>        
         function generateListOfRoles(checkbox)
         {
-            var html = $(checkbox).html();
-            html += "pies";
-            $("#wybraneRole").append(html);
+            var html = jQuery('input[id=wybraneRole]').val();
+            if($(checkbox).is(':checked')){
+                var html2 = html.replace("-" + $(checkbox).val() + ",", "");
+                html2 += "+" + $(checkbox).val() + ",";
+                jQuery('input[id=wybraneRole]').attr('value', html2);  
+            }
+            else {
+                var html2 = html.replace("+" + $(checkbox).val() + ",", "");
+                html2 += "-" + $(checkbox).val() + ",";
+                jQuery('input[id=wybraneRole]').attr('value', html2);  
+            } 
+              
         }
 
         function checkIfLogged()
@@ -181,6 +190,12 @@
                             $('.miejsceNaRole').append("<div class=\"checkbox\"><label><input type=\"checkbox\" value=\"" + data[i] + 
                                 "\" id=\"" + data[i] + "\" name=\"" + data[i] + "\" checked onclick=\"generateListOfRoles(this);\">" + data[i] + "</label></div>");
                             checked = 1;
+                            
+                            var html = jQuery('input[id=wybraneRole]').val();
+                            if($("#" + data[i]).is(':checked')){
+                                html += "+" + $("#" + data[i]).val() + ",";
+                            }            
+                            jQuery('input[id=wybraneRole]').attr('value', html);  
                             break;
                         }                        
                     }
@@ -188,6 +203,12 @@
                     {
                         $('.miejsceNaRole').append("<div class=\"checkbox\"><label><input type=\"checkbox\" value=\"" + data[i] + 
                             "\" id=\"" + data[i] + "\" name=\"" + data[i] + "\" onclick=\"generateListOfRoles(this);\">" + data[i] + "</label></div>");
+                    
+                    var html = jQuery('input[id=wybraneRole]').val();
+                            if($("#" + data[i]).is(':checked')){
+                                html += "+" + $("#" + data[i]).val() + ",";
+                            }            
+                            jQuery('input[id=wybraneRole]').attr('value', html);  
                     }
                 }
             });

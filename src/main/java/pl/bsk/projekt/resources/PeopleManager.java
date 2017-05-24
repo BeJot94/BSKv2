@@ -225,12 +225,20 @@ public class PeopleManager {
     @Path("account/{id}/edit")
     public void editAccountWithID(@PathParam("id") Integer IDKonta,
                         @FormParam("login") String login,
-                        @FormParam("haslo") String haslo) throws IOException, SQLException
+                        @FormParam("haslo") String haslo,
+                        @FormParam("wybraneRole") String wybraneRole) throws IOException, SQLException
     {
+        String[] listaRol = wybraneRole.split(",");
         Connect();        
         Statement statement = connection.createStatement();
         statement.executeUpdate("UPDATE Użytkownik SET Login='" + login + "', Hasło='" +
                 haslo + "' WHERE ID = " + IDKonta.toString());           
+        
+        for(int i = 0; i < listaRol.length; i++){
+            statement.executeUpdate("INSERT INTO RolaUżytkownika VALUES (Login='" + login + "', Hasło='" +
+                haslo + "' WHERE ID = " + IDKonta.toString());      
+        }
+        
         Disconnect();
         
         response.sendRedirect("../../../../admin/pages/people.html");
