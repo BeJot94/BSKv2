@@ -88,6 +88,44 @@ public class RolesManager {
         return list;
     }
     
+    // Funkcja pobiera z bazy danych role i ich ustawienia.
+    @GET
+    @Path("roles/account/{idkonta}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList getAllRolesForAccountWithID(@PathParam("idkonta") Integer IDKonta) throws SQLException {
+        Connect();
+        PreparedStatement query = connection.prepareStatement("SELECT ru.ID_Rola, u.Login, r.Nazwa "
+                + "FROM Rola r INNER JOIN RolaUżytkownika ru on r.ID = ru.ID_Rola INNER JOIN "
+                + "Użytkownik u on u.ID = ru.ID_Użytkownik WHERE ru.ID_Użytkownik = " + IDKonta.toString() + ";");
+        ResultSet rs = query.executeQuery();
+        int iloscRol = 0;        
+   
+        while(rs.next())
+            iloscRol++;
+        
+        ArrayList list = new ArrayList(iloscRol);
+        if(iloscRol > 0)
+        {
+            rs = query.executeQuery();
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+            
+            
+            while (rs.next())
+            {
+                HashMap row = new HashMap(columns);
+                for (int i = 1; i <= columns; ++i)
+                    row.put(md.getColumnName(i), rs.getObject(i));
+                list.add(row);
+            }
+            Disconnect();
+            return list;
+        }
+        
+        Disconnect();
+        return list;
+    }
+    
     // Funkcja pobiera z bazy danych informacje o określonej po ID roli.
     @GET
     @Path("roles/{id}")

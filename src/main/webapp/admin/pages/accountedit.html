@@ -98,19 +98,13 @@
                                             <label>Hasło użytkownika</label>
                                             <input class="form-control" id="haslo" name="haslo" type="text" placeholder="Tutaj podaj hasło użytkownika">
                                         </div>
-                                        <!--<div class="form-group">
-                                            <label>Uprawnienia roli:</label>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="">Wyświetlanie ról
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="">Modyfikacja ról
-                                                </label>
-                                            </div>
-                                        </div> -->
+                                        <div class="form-group">
+                                            <label>Role wybrane</label>
+                                            <input class="form-control" id="wybraneRole" name="wybraneRole" type="text" placeholder="wybraneRole">
+                                        </div>
+                                        <div class="form-group miejsceNaRole">
+                                            <label>Role użytkownika:</label>
+                                        </div>
                                         <button type="submit" class="btn btn-default" id="submitButton"></button>
                                     </form>
                                 </div>
@@ -144,6 +138,13 @@
     <script src="../dist/js/sb-admin-2.js"></script>
     
     <script>        
+        function generateListOfRoles(checkbox)
+        {
+            var html = $(checkbox).html();
+            html += "pies";
+            $("#wybraneRole").append(html);
+        }
+
         function checkIfLogged()
         {
             $.ajax({
@@ -156,6 +157,41 @@
             });
         }
         window.onpaint = checkIfLogged();
+        
+        function getRolesForUser(IDKonta) {
+            var roles = new Array();
+            $.getJSON('../../bsk/rolesmanager/roles/account/' + IDKonta, function (data) {
+                for (var i = 0, len = data.length; i < len; i++) {   
+                    roles.push(data[i]["Nazwa"]);
+                }
+            });
+            
+            return roles;
+        }
+        
+        function getRoles(IDKonta){
+            var roles = getRolesForUser(IDKonta);
+            var checked;
+            $.getJSON('../../bsk/allroles', function (data) {                
+                for (var i = 0, len = data.length; i < len; i++) {
+                    checked = 0;
+                    for (var j = 0, len2 = roles.length; j < len2; j++) {
+                        if(data[i] === roles[j])
+                        {
+                            $('.miejsceNaRole').append("<div class=\"checkbox\"><label><input type=\"checkbox\" value=\"" + data[i] + 
+                                "\" id=\"" + data[i] + "\" name=\"" + data[i] + "\" checked onclick=\"generateListOfRoles(this);\">" + data[i] + "</label></div>");
+                            checked = 1;
+                            break;
+                        }                        
+                    }
+                    if(checked == 0)
+                    {
+                        $('.miejsceNaRole').append("<div class=\"checkbox\"><label><input type=\"checkbox\" value=\"" + data[i] + 
+                            "\" id=\"" + data[i] + "\" name=\"" + data[i] + "\" onclick=\"generateListOfRoles(this);\">" + data[i] + "</label></div>");
+                    }
+                }
+            });
+        }
         
         function get(name) {
             if (getArg = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
@@ -176,6 +212,7 @@
                 });                
                 jQuery('form[id=accountForm]').attr('action', "../../bsk/peoplemanager/account/" + account_id + "/add");
                 
+                getRoles(null);
             } else {
                 $(".page-header").html("Edytuj użytkownika");
                 
@@ -189,14 +226,18 @@
                     jQuery('input[id=login]').attr('value', data[0]["Login"]);
                     jQuery('input[id=haslo]').attr('value', data[0]["Hasło"]);
                 
-                jQuery('form[id=accountForm]').attr('action', "../../bsk/peoplemanager/account/" + data[0]["ID"] + "/edit");
+                    jQuery('form[id=accountForm]').attr('action', "../../bsk/peoplemanager/account/" + data[0]["ID"] + "/edit");
+
+                    getRoles(data[0]["ID"]);
                 });
+                
                 
             }
         }
         
         $(document).ready(function() {
-            update();
+            update();            
+            
             $.getJSON('../../bsk/login/info/all', function (data) {
                 var login = data[0].toString();
                 $.getJSON('../../bsk/peoplemanager/account/' + login, function (data2) {

@@ -152,33 +152,43 @@
                 }).then(function(data) {
                     $(".miejsceNaMenu").html(data);  
                 });
+                
+                var rola = data2[0]["ObecnaRola"];
+                $.getJSON('../../bsk/rolesmanager/role/' + rola, function (data3) {
+                    $.getJSON('../../bsk/rolesmanager/roles/all', function (data4) {
+                        var array = new Array();
+                        for (var i = 0, len = data4.length; i < len; i++) {
+                            var dataRow = new Array();
+                            dataRow.push(data4[i]["ID"]);
+                            dataRow.push(data4[i]["Nazwa"]);
+                            dataRow.push(data4[i]["Opis"]);
+                            if(data3[0]["RolaModyfikacja"] == true) {
+                                dataRow.push("<a href=\"rolesedit.html?role=" + data4[i]["ID"] + "\">Edytuj</a>");
+                                dataRow.push("<form id=\"delete-form\" action=\"../../bsk/rolesmanager/roles/" + data4[i]["ID"] + 
+                                    "/delete\" method=\"post\"><button type=\"submit\">Usuń</button></form>");
+                            } else {
+                                dataRow.push("");
+                                dataRow.push("");
+                            } 
+                            array.push(dataRow);
+                        }
+
+                        $('#dataTables-roles').DataTable( {
+                            data: array,
+                            columns: [
+                                { title: "ID" },
+                                { title: "Nazwa roli" },
+                                { title: "Opis" },
+                                { title: "Edycja" },
+                                { title: "Usuwanie" }
+                        ]
+                        } );         
+                    });
+                });
             });
         });
         
-        $.getJSON('../../bsk/rolesmanager/roles/all', function (data) {
-            var array = new Array();
-            for (var i = 0, len = data.length; i < len; i++) {
-                var dataRow = new Array();
-                dataRow.push(data[i]["ID"]);
-                dataRow.push(data[i]["Nazwa"]);
-                dataRow.push(data[i]["Opis"]);
-                dataRow.push("<a href=\"rolesedit.html?role=" + data[i]["ID"] + "\">Edytuj</a>");
-                dataRow.push("<form id=\"delete-form\" action=\"../../bsk/rolesmanager/roles/" + data[i]["ID"] + 
-                        "/delete\" method=\"post\"><button type=\"submit\">Usuń</button></form>");
-                array.push(dataRow);
-            }
-            
-            $('#dataTables-roles').DataTable( {
-                data: array,
-                columns: [
-                    { title: "ID" },
-                    { title: "Nazwa roli" },
-                    { title: "Opis" },
-                    { title: "Edycja" },
-                    { title: "Usuwanie" }
-            ]
-            } );         
-        });
+        
     });
     </script>
 
