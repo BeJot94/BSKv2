@@ -235,8 +235,25 @@ public class PeopleManager {
                 haslo + "' WHERE ID = " + IDKonta.toString());           
         
         for(int i = 0; i < listaRol.length; i++){
-            statement.executeUpdate("INSERT INTO RolaUżytkownika VALUES (Login='" + login + "', Hasło='" +
-                haslo + "' WHERE ID = " + IDKonta.toString());      
+            boolean isExist=false;
+            PreparedStatement query = connection.prepareStatement("Select * From RolaUżytkownika where ID_Rola IN(Select ID from Rola where Nazwa='"+listaRol[i].substring(1)+"') and ID_Użytkownik='+"+IDKonta+"'");
+            ResultSet rs = query.executeQuery();
+            if(rs.next()){
+                isExist=true;
+            }
+            if (listaRol[i].substring(0, 1).equals("+") ) {
+                if(!isExist){
+                    System.out.println(rs.getString("ID_Rola"));
+                    statement.executeUpdate("INSERT INTO RolaUżytkownika VALUES (" + rs.getString("ID_Rola")+","+IDKonta+")");
+                }
+                
+            }   
+            else if (listaRol[i].substring(0, 1).equals("-") ) {
+                if(isExist){
+                    statement.executeUpdate("Delete From RolaUżytkownika where ID_Rola IN(Select ID from Rola where ID='"+listaRol[i].substring(1)+"') and ID_Użytkownik='+"+IDKonta+"'");
+                }
+            }
+            
         }
         
         Disconnect();
