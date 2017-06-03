@@ -241,8 +241,8 @@
                 document.getElementById("submitButton").innerHTML = "Zapisz użytkownika";
                 
                 $.getJSON('../../bsk/peoplemanager/person/' + account_id, function (data) {
-                    jQuery('input[id=IDKonta]').attr('value', data[0]["ID"]);
-                    jQuery('input[id=IDOsoba]').attr('value', account_id);                
+                    jQuery('input[id=IDKonta]').attr('value', account_id);
+                    jQuery('input[id=IDOsoba]').attr('value', data[0]["ID"]);                
                     jQuery('input[id=dane]').attr('value', data[0]["Imię"] + " " + data[0]["Nazwisko"]);
                     jQuery('input[id=login]').attr('value', data[0]["Login"]);
                     jQuery('input[id=haslo]').attr('value', data[0]["Hasło"]);

@@ -162,7 +162,7 @@
                             dataRow.push(data4[i]["ID"]);
                             dataRow.push(data4[i]["Nazwa"]);
                             dataRow.push(data4[i]["Opis"]);
-                            if(data3[0]["RolaModyfikacja"] == true) {
+                            if(data3[0]["RolaEdycja"] == true) {
                                 dataRow.push("<a href=\"rolesedit.html?role=" + data4[i]["ID"] + "\">Edytuj</a>");
                                 dataRow.push("<form id=\"delete-form\" action=\"../../bsk/rolesmanager/roles/" + data4[i]["ID"] + 
                                     "/delete\" method=\"post\"><button type=\"submit\">Usuń</button></form>");

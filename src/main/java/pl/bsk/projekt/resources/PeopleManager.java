@@ -223,7 +223,7 @@ public class PeopleManager {
     // Funkcja edytuje w bazie danych użytkownika o określonym ID.
     @POST
     @Path("account/{id}/edit")
-    public void editAccountWithID(@PathParam("id") Integer IDKonta,
+    public void editAccountWithID(@PathParam("id") String IDKonta,
                         @FormParam("login") String login,
                         @FormParam("haslo") String haslo,
                         @FormParam("wybraneRole") String wybraneRole) throws IOException, SQLException
@@ -232,25 +232,40 @@ public class PeopleManager {
         Connect();        
         Statement statement = connection.createStatement();
         statement.executeUpdate("UPDATE Użytkownik SET Login='" + login + "', Hasło='" +
-                haslo + "' WHERE ID = " + IDKonta.toString());           
+                haslo + "' WHERE ID = '" + IDKonta+"'");           
         
         for(int i = 0; i < listaRol.length; i++){
+            
             boolean isExist=false;
-            PreparedStatement query = connection.prepareStatement("Select * From RolaUżytkownika where ID_Rola IN(Select ID from Rola where Nazwa='"+listaRol[i].substring(1)+"') and ID_Użytkownik='+"+IDKonta+"'");
+            PreparedStatement query2 = connection.prepareStatement("Select ID from Rola where Nazwa='"+listaRol[i].substring(1)+"'");
+                    ResultSet rs2 = query2.executeQuery();
+                    String roleID = "";
+                    if(rs2.next()){
+                        roleID=rs2.getString("ID");
+                    }
+                    
+                    
+            PreparedStatement query = connection.prepareStatement("Select ID_Rola From RolaUżytkownika where ID_Użytkownik="+IDKonta);
             ResultSet rs = query.executeQuery();
-            if(rs.next()){
-                isExist=true;
+            String role;
+            while(rs.next()){
+                role=rs.getString("ID_Rola");
+                if(role.equals(roleID)){
+                    isExist=true;
+                }
             }
+            
+                    
             if (listaRol[i].substring(0, 1).equals("+") ) {
                 if(!isExist){
-                    System.out.println(rs.getString("ID_Rola"));
-                    statement.executeUpdate("INSERT INTO RolaUżytkownika VALUES (" + rs.getString("ID_Rola")+","+IDKonta+")");
+  
+                    statement.executeUpdate("INSERT INTO RolaUżytkownika (ID_Rola, ID_Użytkownik) VALUES (" + roleID+","+IDKonta+")");
                 }
                 
             }   
             else if (listaRol[i].substring(0, 1).equals("-") ) {
                 if(isExist){
-                    statement.executeUpdate("Delete From RolaUżytkownika where ID_Rola IN(Select ID from Rola where ID='"+listaRol[i].substring(1)+"') and ID_Użytkownik='+"+IDKonta+"'");
+                    statement.executeUpdate("Delete From RolaUżytkownika where ID_Rola IN(Select ID from Rola where ID='"+roleID+"') and ID_Użytkownik='+"+IDKonta.toString()+"'");
                 }
             }
             

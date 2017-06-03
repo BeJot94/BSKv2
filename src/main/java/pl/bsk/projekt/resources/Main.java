@@ -106,7 +106,7 @@ public class Main {
                     "<a href=\"index.html\"><i class=\"fa fa-dashboard fa-fw\"></i> Strona główna</a>" + 
                 "</li>";
 
-            if(row.get("RolaWyświetlanie").toString().equals("true") || row.get("RolaModyfikacja").toString().equals("true"))
+            if(row.get("RolaWyświetlanie").toString().equals("true") || row.get("RolaEdycja").toString().equals("true"))
             {
                 menu += "<li>" + 
                     "<a href=\"#\"><i class=\"fa fa-cog fa-fw\"></i> Role<span class=\"fa arrow\"></span></a>" + 
@@ -117,7 +117,7 @@ public class Main {
                                 "<a href=\"roles.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj role</a>" + 
                             "</li>";
                 }
-                if(row.get("RolaModyfikacja").toString().equals("true"))
+                if(row.get("RolaEdycja").toString().equals("true"))
                 {
                     menu += "<li>" + 
                                 "<a href=\"rolesedit.html\"><i class=\"fa fa-plus-square fa-fw\"></i> Dodaj rolę</a>" + 
@@ -135,7 +135,7 @@ public class Main {
                 "</li>";
             }
 
-            if(row.get("OsobaWyświetlanie").toString().equals("true") || row.get("OsobaModyfikacja").toString().equals("true"))
+            if(row.get("OsobaWyświetlanie").toString().equals("true") || row.get("OsobaEdycja").toString().equals("true"))
             {
                 menu += "<li>" + 
                     "<a href=\"#\"><i class=\"fa fa-users  fa-fw\"></i> Osoby<span class=\"fa arrow\"></span></a>" + 
@@ -146,7 +146,7 @@ public class Main {
                                 "<a href=\"people.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj osoby</a>" + 
                             "</li>";
                 }
-                if(row.get("OsobaModyfikacja").toString().equals("true"))
+                if(row.get("OsobaEdycja").toString().equals("true"))
                 {
                     menu += "<li>" + 
                                 "<a href=\"personedit.html\"><i class=\"fa fa-plus-square fa-fw\"></i> Dodaj osobę</a>" + 
