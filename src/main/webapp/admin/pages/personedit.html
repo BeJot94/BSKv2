@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Zarządzanie osobą - BSK Projekt</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -172,6 +172,7 @@
 
         function update() {
             var person_id = get('person');
+            var visible = get('visible');
             if (person_id == null || person_id == '' || person_id == 'new') {
                 // nagłówek strony
                 $(".page-header").html("Dodaj osobę");
@@ -182,6 +183,17 @@
                 // atrybut placeholder pola ID osoby
                 jQuery('input[id=IDOsoba]').attr('placeholder', 'ID zostanie nadane automatycznie');
                 
+            } else if (person_id != null && visible == 'no') {
+                // nagłówek strony
+                $(".page-header").html("Edytuj osobę");
+                // przycisk formularza
+                document.getElementById("submitButton").innerHTML = "Zapisz osobę";
+                
+                $.getJSON('../../bsk/peoplemanager/person/' + person_id, function (data) {
+                    // atrybut action formularza                
+                    jQuery('form[id=accountForm]').attr('action', "../../bsk/peoplemanager/person/" + data[0]["ID_Osoba"] + "/edit");
+                    jQuery('input[id=IDOsoba]').attr('value', data[0]["ID_Osoba"]);
+                }); 
             } else if (person_id != null) {
                 // nagłówek strony
                 $(".page-header").html("Edytuj osobę");

@@ -58,7 +58,7 @@ public class PeopleManager {
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList getPeople() throws SQLException {
         Connect();
-        PreparedStatement query = connection.prepareStatement("SELECT Osoba.ID as 'oID', * FROM Osoba LEFT JOIN UĹĽytkownik on Osoba.ID = UĹĽytkownik.ID_Osoba;");
+        PreparedStatement query = connection.prepareStatement("SELECT Osoba.ID as 'oID', * FROM Osoba LEFT JOIN Użytkownik on Osoba.ID = Użytkownik.ID_Osoba;");
         ResultSet rs = query.executeQuery();
         int iloscRol = 0;        
    
@@ -94,7 +94,7 @@ public class PeopleManager {
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList getInfoAboutPerson(@PathParam("id") int id) throws SQLException {
         Connect();
-        PreparedStatement query = connection.prepareStatement("SELECT Osoba.ID as 'oID', * FROM Osoba LEFT JOIN UĹĽytkownik on Osoba.ID = UĹĽytkownik.ID_Osoba WHERE Osoba.ID="+id);
+        PreparedStatement query = connection.prepareStatement("SELECT Osoba.ID as 'oID', * FROM Osoba LEFT JOIN Użytkownik on Osoba.ID = Użytkownik.ID_Osoba WHERE Osoba.ID="+id);
         ResultSet rs = query.executeQuery();
         
         ArrayList list=new ArrayList(1);
@@ -119,7 +119,7 @@ public class PeopleManager {
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList getInfoAboutAccount(@PathParam("name") String name) throws SQLException {
         Connect();
-        PreparedStatement query = connection.prepareStatement("SELECT * FROM UĹĽytkownik WHERE Login='" + name + "'");
+        PreparedStatement query = connection.prepareStatement("SELECT * FROM Użytkownik WHERE Login='" + name + "'");
         ResultSet rs = query.executeQuery();
         
         ArrayList list=new ArrayList(1);
@@ -191,13 +191,13 @@ public class PeopleManager {
         Connect();        
         Statement statement = connection.createStatement();
         PreparedStatement query = connection.prepareStatement("SELECT Osoba.ID as 'oID', "
-                + "* FROM Osoba LEFT JOIN UĹĽytkownik on Osoba.ID = UĹĽytkownik.ID_Osoba "
+                + "* FROM Osoba LEFT JOIN Użytkownik on Osoba.ID = Użytkownik.ID_Osoba "
                 + "WHERE Osoba.ID=" + IDOsoba);
         ResultSet rs = query.executeQuery();
         
         String login = rs.getString("Login");
         if(login != null){
-            statement.executeUpdate("DELETE FROM UĹĽytkownik WHERE ID = " + rs.getString("ID"));   
+            statement.executeUpdate("DELETE FROM Użytkownik WHERE ID = " + rs.getString("ID"));   
         }
         statement.executeUpdate("DELETE FROM Osoba WHERE ID = " + IDOsoba.toString());               
         Disconnect();
@@ -213,7 +213,7 @@ public class PeopleManager {
         Connect();        
         Statement statement = connection.createStatement();
         
-        statement.executeUpdate("DELETE FROM UĹĽytkownik WHERE ID = " + IDKonto.toString());
+        statement.executeUpdate("DELETE FROM Użytkownik WHERE ID = " + IDKonto.toString());
         statement.executeUpdate("DELETE FROM Osoba WHERE ID = " + IDOsoba.toString());               
         Disconnect();
         
@@ -231,7 +231,7 @@ public class PeopleManager {
         String[] listaRol = wybraneRole.split(",");
         Connect();        
         Statement statement = connection.createStatement();
-        statement.executeUpdate("UPDATE UĹĽytkownik SET Login='" + login + "', HasĹ‚o='" +
+        statement.executeUpdate("UPDATE Użytkownik SET Login='" + login + "', Hasło='" +
                 haslo + "' WHERE ID = '" + IDKonta+"'");           
         
         for(int i = 0; i < listaRol.length; i++){
@@ -245,7 +245,7 @@ public class PeopleManager {
                     }
                     
                     
-            PreparedStatement query = connection.prepareStatement("Select ID_Rola From RolaUĹĽytkownika where ID_UĹĽytkownik="+IDKonta);
+            PreparedStatement query = connection.prepareStatement("Select ID_Rola From RolaUżytkownika where ID_Użytkownik="+IDKonta);
             ResultSet rs = query.executeQuery();
             String role;
             while(rs.next()){
@@ -259,13 +259,13 @@ public class PeopleManager {
             if (listaRol[i].substring(0, 1).equals("+") ) {
                 if(!isExist){
   
-                    statement.executeUpdate("INSERT INTO RolaUĹĽytkownika (ID_Rola, ID_UĹĽytkownik) VALUES (" + roleID+","+IDKonta+")");
+                    statement.executeUpdate("INSERT INTO RolaUżytkownika (ID_Rola, ID_Użytkownik) VALUES (" + roleID+","+IDKonta+")");
                 }
                 
             }   
             else if (listaRol[i].substring(0, 1).equals("-") ) {
                 if(isExist){
-                    statement.executeUpdate("Delete From RolaUĹĽytkownika where ID_Rola IN(Select ID from Rola where ID='"+roleID+"') and ID_UĹĽytkownik='+"+IDKonta.toString()+"'");
+                    statement.executeUpdate("Delete From RolaUżytkownika where ID_Rola IN(Select ID from Rola where ID='"+roleID+"') and ID_Użytkownik='+"+IDKonta.toString()+"'");
                 }
             }
             
@@ -285,7 +285,7 @@ public class PeopleManager {
     {
         Connect();
         Statement statement = connection.createStatement();
-        statement.executeUpdate("INSERT INTO UĹĽytkownik VALUES (" + IDOsoba
+        statement.executeUpdate("INSERT INTO Użytkownik VALUES (" + IDOsoba
                 + ", '" + login + "', '" + haslo + "', null);");
 
         Disconnect();
@@ -299,7 +299,7 @@ public class PeopleManager {
     public void deleteAccountWithID(@PathParam("id") String IDKonta) throws SQLException, IOException {
         Connect();        
         Statement statement = connection.createStatement();
-        statement.executeUpdate("DELETE FROM UĹĽytkownik WHERE ID = " + IDKonta);               
+        statement.executeUpdate("DELETE FROM Użytkownik WHERE ID = " + IDKonta);               
         Disconnect();
         
         response.sendRedirect("../../../../admin/pages/people.html");

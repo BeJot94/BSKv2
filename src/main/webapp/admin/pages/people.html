@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Lista osób - BSK Projekt</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -155,12 +155,23 @@
                 
                 var rola = data2[0]["ObecnaRola"];
                 $.getJSON('../../bsk/rolesmanager/role/' + rola, function (data3) {
+                    if(!data3[0]["OsobaWyświetlanie"])
+                    {
+                    window.location.href = "../index.html";
+                    }
                     $.getJSON('../../bsk/peoplemanager/people/all', function (data4) {
                         var array = new Array();
                         for (var i = 0, len = data4.length; i < len; i++) {
                             var dataRow = new Array();
-                            dataRow.push(data4[i]["Imię"]);
-                            dataRow.push(data4[i]["Nazwisko"]);
+                            dataRow.push(data4[i]["oID"]);
+                            if(data3[0]["OsobaWyświetlanie"] == true) {
+                                dataRow.push(data4[i]["Imię"]);
+                                dataRow.push(data4[i]["Nazwisko"]);
+                            } else {
+                                dataRow.push("");
+                                dataRow.push("");
+                            }
+                            
                             if(data4[i]["Login"] !== null){
                                 if(data3[0]["UżytkownikWyświetlanie"] == true) {
                                     dataRow.push("Tak");
@@ -169,7 +180,9 @@
                                     dataRow.push("");
                                     dataRow.push("");
                                 }                                
-                                if(data3[0]["OsobaEdycja"] == true) {
+                                if(data3[0]["OsobaEdycja"] == true && data3[0]["OsobaWyświetlanie"] != true) {
+                                    dataRow.push("<a href=\"personedit.html?visible=no&person=" + data4[i]["oID"] + "\">Edytuj osobę</a>");
+                                } else if(data3[0]["OsobaEdycja"] == true) {
                                     dataRow.push("<a href=\"personedit.html?person=" + data4[i]["oID"] + "\">Edytuj osobę</a>");
                                 } else {
                                     dataRow.push("");
@@ -208,7 +221,7 @@
                                 } else {
                                     dataRow.push("");
                                 }      
-                                if(data3[0]["OsobaEdycja"] == true) {
+                                if(data3[0]["OsobaUsuwanie"] == true) {
                                     dataRow.push("<form id=\"delete-form\" action=\"../../bsk/peoplemanager/person/" + data4[i]["oID"] + 
                                         "/delete\" method=\"post\"><button type=\"submit\">Usuń osobę</button></form>");
                                 } else {
@@ -222,6 +235,7 @@
                         $('#dataTables-roles').DataTable( {
                             data: array,
                             columns: [
+                                { title: "ID" },
                                 { title: "Imię" },
                                 { title: "Nazwisko" },
                                 { title: "Posiada konto?" },
