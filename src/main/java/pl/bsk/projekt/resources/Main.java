@@ -191,7 +191,7 @@ public class Main {
                     if(row.get("WizytaDodawanie").toString().equals("true"))
                     {
                         menu += "<li>" + 
-                                    "<a href=\"addVisit.html?id=0\"><i class=\"fa fa-plus-square fa-fw\"></i> Nowa wizyta</a>" + 
+                                    "<a href=\"addVisit.html?registerId=0\"><i class=\"fa fa-plus-square fa-fw\"></i> Nowa wizyta</a>" + 
                                 "</li>";
                     }
                 

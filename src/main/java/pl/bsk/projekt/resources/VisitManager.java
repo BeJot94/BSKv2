@@ -1,14 +1,20 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package pl.bsk.projekt.resources;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,15 +23,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 /**
- * Created by Bartosz on 08.04.2017.
+ *
+ * @author Grzegorz
  */
-
-@Path("/registration")
-public class RegistrationManager {
-    
+@Path("/visit")
+public class VisitManager {
     private Connection connection = null;
     
     private void Connect() {
@@ -52,49 +56,12 @@ public class RegistrationManager {
     @Context
     HttpServletResponse response;
     
-    // Funkcja pobiera z bazy danych wszystkich lekarzy
-    @GET
-    @Path("getDoctors")
-    @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList getAllDoctors() throws SQLException {
-        Connect();
-        PreparedStatement query = connection.prepareStatement("SELECT * FROM Osoba where TypOsoby='Lekarz'");
-        ResultSet rs = query.executeQuery();
-        int count = 0;        
-   
-        while(rs.next())
-            count++;
-        
-        ArrayList list = new ArrayList(count);
-        if(count > 0)
-        {
-            rs = query.executeQuery();
-            ResultSetMetaData md = rs.getMetaData();
-            int columns = md.getColumnCount();
-            
-            
-            while (rs.next())
-            {
-                HashMap row = new HashMap(columns);
-                for (int i = 1; i <= columns; ++i)
-                    row.put(md.getColumnName(i), rs.getObject(i));
-                list.add(row);
-            }
-            Disconnect();
-            return list;
-        }
-        
-        Disconnect();
-        return list;
-    }
-    
-     // Funkcja pobiera z bazy danych wysztkie rejestracje 
     @GET
     @Path("getAll")
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList getRegistration() throws SQLException {
+    public ArrayList getVisit() throws SQLException {
         Connect();
-        PreparedStatement query = connection.prepareStatement("SELECT * From Rejestracja;");
+        PreparedStatement query = connection.prepareStatement("SELECT * From Wizyta;");
         ResultSet rs = query.executeQuery();
         int count = 0;        
    
@@ -124,46 +91,48 @@ public class RegistrationManager {
         return list;
     }
     
-    //dodanie rejestracji
+        //dodanie rejestracji
     @POST
     @Path("add")
-    public void addRegistration(@FormParam("ID") String ID,
+    public void addVisit(@FormParam("idRejestracji") int registerID,
                       @FormParam("idPacjenta") String patientID,
                       @FormParam("idLekarza") String doctorID,
                       @FormParam("dataWizyty") String date,
-                      @FormParam("godzinaWizyty") String hour,
-                      @FormParam("CzyOdbyta") String isDone) throws IOException, SQLException
+                      @FormParam("godzinaWizyty") String hour) throws IOException, SQLException
     {
         Connect();
         Statement statement = connection.createStatement();
         
-        statement.executeUpdate("INSERT INTO Rejestracja VALUES ('"+patientID+"','"+doctorID+"','"+date+"','"+hour+"','NIE')");
-
+        statement.executeUpdate("INSERT INTO Wizyta VALUES ('"+patientID+"','"+doctorID+"','"+date+"','"+hour+"')");
+        
+        if(registerID!=0){
+            statement.executeUpdate("UPDATE Rejestracja SET CzyOdbyta='TAK' where ID='"+registerID );
+        }
         Disconnect();
         
-        response.sendRedirect("../../admin/pages/patients.html");
+        response.sendRedirect("../../admin/pages/visit.html");
     }
     
     //usuwanie rejestracji po id
     @POST
     @Path("{id}/delete")
-    public void deleteRegistration(@PathParam("id") Integer IDRejestracja) throws SQLException, IOException {
+    public void deleteVisit(@PathParam("id") Integer IDWizyta) throws SQLException, IOException {
         Connect();        
         Statement statement = connection.createStatement(); 
         
-        statement.executeUpdate("DELETE FROM Rejestracja WHERE ID = " + IDRejestracja.toString());               
+        statement.executeUpdate("DELETE FROM Wizyta WHERE ID = " + IDWizyta.toString());               
         Disconnect();
         
-        response.sendRedirect("../../../../admin/pages/registration.html");
+        response.sendRedirect("../../../../admin/pages/visit.html");
     }
     
     //Zwraca info o rejestracji
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList getInfoAboutPerson(@PathParam("id") int id) throws SQLException {
+    public ArrayList getInfoAboutVisit(@PathParam("id") int id) throws SQLException {
         Connect();
-        PreparedStatement query = connection.prepareStatement("SELECT * from Rejestracja WHERE ID="+id);
+        PreparedStatement query = connection.prepareStatement("SELECT * from Wizyta WHERE ID="+id);
         ResultSet rs = query.executeQuery();
         
         ArrayList list=new ArrayList(1);
@@ -185,23 +154,18 @@ public class RegistrationManager {
     // Funkcja edytuje w bazie danych info o rejestracji
     @POST
     @Path("{id}/edit")
-        public void editPersonWithID(@PathParam("id") Integer IDRejestracja,
+        public void editVisitWithID(@PathParam("id") Integer IDRejestracja,
                         @FormParam("idPacjent") String IDPacjent,
                         @FormParam("idLekarz") String IDLekarz,
                         @FormParam("dataWizyty") String dataWizyty,
-                        @FormParam("godzinaWizyty") String godzinaWizyty,
-                        @FormParam("czyOdbyta") String czyOdbyta ) throws IOException, SQLException
+                        @FormParam("godzinaWizyty") String godzinaWizyty ) throws IOException, SQLException
     {
         Connect();        
         Statement statement = connection.createStatement();
-        statement.executeUpdate("UPDATE Rejestracja SET ID_Pacjent='" + IDPacjent + "', ID_Lekarz='" +
-                IDLekarz + "', DataWizyty='" + dataWizyty + "', GodzinaWizyty='" + godzinaWizyty + 
-                "', CzyOdbyta='" + czyOdbyta + "' WHERE ID = " + IDRejestracja);           
+        statement.executeUpdate("UPDATE Wizyta SET ID_Pacjent='" + IDPacjent + "', ID_Lekarz='" +
+                IDLekarz + "', DataWizyty='" + dataWizyty + "', GodzinaWizyty='" + godzinaWizyty + "' WHERE ID = " + IDRejestracja);           
         Disconnect();
         
-        response.sendRedirect("../../../../rest/admin/pages/registration.html");
+        response.sendRedirect("../../../admin/pages/visit.html");
     }
-    
-    
-    
 }

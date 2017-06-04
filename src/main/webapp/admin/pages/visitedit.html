@@ -103,13 +103,7 @@
                                             <label>Godzina wizyty (HH:MM)</label>
                                             <input class="form-control" id="godzinaWizyty" name="godzinaWizyty" type="text" >
                                 </div>
-                                <div class="form-group">
-                                            <label>Odbyta?</label>
-                                            <input class="form-control" id="czyOdbyta" name="czyOdbyta" type="text" >
-                                </div>
-                                
 
-                            
                                 <br> </br>    
                             <button type="submit" class="btn btn-default" id="submitButton"></button>
                             </form>
@@ -156,22 +150,21 @@
         }
         
         function update() {
-            var registration_id = get('id');
-            if (registration_id != null) {
+            var visit_id = get('id');
+            if (visit_id != null) {
                 // nagłówek strony
-                $(".page-header").html("Edytuj rejestrację");
+                $(".page-header").html("Edytuj wizytę");
                 // przycisk formularza
                 document.getElementById("submitButton").innerHTML = "Zapisz";
                     
-                    $.getJSON('../../bsk/registration/' + registration_id, function (data) {
+                    $.getJSON('../../bsk/visit/' + visit_id, function (data) {
                     // atrybut action formularza                
-                    jQuery('form[id=accountForm]').attr('action', "../../bsk/registration/" + data[0]["ID"] + "/edit");
+                    jQuery('form[id=accountForm]').attr('action', "../../bsk/visit/" + data[0]["ID"] + "/edit");
                     jQuery('input[id=idPacjent]').attr('value', data[0]["ID_Pacjent"]);
                     jQuery('input[id=idLekarz]').attr('value', data[0]["ID_Lekarz"]);
                     jQuery('input[id=dataWizyty]').attr('value', data[0]["DataWizyty"]);
                     jQuery('input[id=godzinaWizyty]').attr('value', data[0]["GodzinaWizyty"]);
-                    jQuery('input[id=czyOdbyta]').attr('value', data[0]["CzyOdbyta"]);
-                    jQuery('input[id=id]').attr('value', registration_id);
+                    jQuery('input[id=id]').attr('value', visit_id);
 
                     });                 
                 

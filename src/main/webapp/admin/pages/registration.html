@@ -159,7 +159,7 @@
                         var array = new Array();
                         for (var i = 0, len = data4.length; i < len; i++) {
                             var dataRow = new Array();
-                            if(data4[i]["Login"] !== null && data4[i]["CzyOdbyta"]=='NIE' ){
+                            if(data4[i]["Login"] !== null ){
                                 dataRow.push(data4[i]["ID"]);
                                 if(data3[0]["RejestracjaWyświetlanie"] == true){
                                     dataRow.push(data4[i]["ID_Pacjent"]);
@@ -186,7 +186,13 @@
                                         "/delete/\" method=\"post\"><button type=\"submit\">Anuluj rejestrację</button></form>");
                                 } else {
                                     dataRow.push("");
-                                }                             
+                                }  
+                                 if(data3[0]["WizytaDodawanie"] == true && data4[i]["CzyOdbyta"]=='NIE') {
+                                    dataRow.push("<a href=\"addVisit.html?registerId=" + data4[i]["ID"] + "\">Nowa wizyta</a>");
+                                } else {
+                                    dataRow.push("");
+                                } 
+                               
                             array.push(dataRow);    
                             }
                             
@@ -204,7 +210,8 @@
                                 { title: "Godzina" },
                                 { title: "Czy wizyta odbyta?" },
                                 { title: "Edycja" },
-                                { title: "Anulowanie" }]
+                                { title: "Anulowanie" },
+                                { title: "Rozpocznij wizytę" }]
                         });
                     });
                 });
