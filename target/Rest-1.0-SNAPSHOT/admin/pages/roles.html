@@ -164,7 +164,6 @@
                         for (var i = 0, len = data4.length; i < len; i++) {
                             var dataRow = new Array();
                             dataRow.push(data4[i]["ID"]);
-<<<<<<< HEAD
                             if(data3[0]["RolaWyświetlanie"] == true) {
                                 dataRow.push(data4[i]["Nazwa"]);
                             } else {
@@ -178,11 +177,6 @@
                             if(data3[0]["RolaEdycja"] == true && data3[0]["RolaWyświetlanie"] != true) {
                                 dataRow.push("<a href=\"rolesedit.html?visible=no&role=" + data4[i]["ID"] + "\">Edytuj</a>");
                             } else if(data3[0]["RolaEdycja"] == true) {
-=======
-                            dataRow.push(data4[i]["Nazwa"]);
-                            dataRow.push(data4[i]["Opis"]);
-                            if(data3[0]["RolaEdycja"] == true) {
->>>>>>> f3b2f21e642b243adc0753b933cad472d21e5f52
                                 dataRow.push("<a href=\"rolesedit.html?role=" + data4[i]["ID"] + "\">Edytuj</a>");
                             } else {
                                 dataRow.push("");
