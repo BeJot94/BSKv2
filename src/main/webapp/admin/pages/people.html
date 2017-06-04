@@ -169,17 +169,17 @@
                                     dataRow.push("");
                                     dataRow.push("");
                                 }                                
-                                if(data3[0]["OsobaModyfikacja"] == true) {
+                                if(data3[0]["OsobaEdycja"] == true) {
                                     dataRow.push("<a href=\"personedit.html?person=" + data4[i]["oID"] + "\">Edytuj osobę</a>");
                                 } else {
                                     dataRow.push("");
                                 }                  
-                                if(data3[0]["UżytkownikModyfikacja"] == true) {
+                                if(data3[0]["UżytkownikEdycja"] == true) {
                                     dataRow.push("<a href=\"accountedit.html?new=no&account=" + data4[i]["oID"] + "\">Edytuj konto</a>");
                                 } else {
                                     dataRow.push("");
                                 }               
-                                if(data3[0]["OsobaModyfikacja"] == true) {
+                                if(data3[0]["OsobaEdycja"] == true) {
                                     dataRow.push("<form id=\"delete-form\" action=\"../../bsk/peoplemanager/person/" + data4[i]["oID"] + 
                                         "/delete/" + data4[i]["ID"] + "\" method=\"post\"><button type=\"submit\">Usuń osobę</button></form>");
                                 } else {
@@ -198,17 +198,17 @@
                                     dataRow.push("");
                                 }
                                 dataRow.push(""); 
-                                if(data3[0]["OsobaModyfikacja"] == true) {
+                                if(data3[0]["OsobaEdycja"] == true) {
                                     dataRow.push("<a href=\"personedit.html?person=" + data4[i]["oID"] + "\">Edytuj osobę</a>");
                                 } else {
                                     dataRow.push("");
                                 }   
-                                if(data3[0]["UżytkownikModyfikacja"] == true) {
+                                if(data3[0]["UżytkownikEdycja"] == true) {
                                     dataRow.push("<a href=\"accountedit.html?new=yes&account=" + data4[i]["oID"] + "\">Załóż konto</a>");
                                 } else {
                                     dataRow.push("");
                                 }      
-                                if(data3[0]["OsobaModyfikacja"] == true) {
+                                if(data3[0]["OsobaEdycja"] == true) {
                                     dataRow.push("<form id=\"delete-form\" action=\"../../bsk/peoplemanager/person/" + data4[i]["oID"] + 
                                         "/delete\" method=\"post\"><button type=\"submit\">Usuń osobę</button></form>");
                                 } else {

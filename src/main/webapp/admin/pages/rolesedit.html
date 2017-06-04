@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Zarządzanie rolą - BSK Projekt</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -92,75 +92,201 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Uprawnienia roli:</label>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="wRol" id="wRol" name="wRol">Wyświetlanie ról
-                                                </label>
+                                            <div class="form-group">
+                                                <label>ROLE</label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="aRol" id="aRol" name="aRol" onClick="zaznaczWszystko(this)"><b>Zaznacz wszystkie</b>
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="wRol" id="wRol" name="wRol">Wyświetlanie ról
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="eRol" id="eRol" name="eRol">Edycja ról
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="uRol" id="uRol" name="uRol">Usuwanie ról
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="dRol" id="dRol" name="dRol">Dodawanie ról
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="mRol" id="mRol" name="mRol">Modyfikacja ról
-                                                </label>
+                                            <div class="form-group">
+                                            <label>OSOBY</label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="aOsob" id="aOsob" name="aOsob" onClick="zaznaczWszystko(this)"><b>Zaznacz wszystkie</b>
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="wOsob" id="wOsob" name="wOsob">Wyświetlanie osób
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="eOsob" id="eOsob" name="eOsob">Edycja osób
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="uOsob" id="uOsob" name="uOsob">Usuwanie osób
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="dOsob" id="dOsob" name="dOsob">Dodawanie osób
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="wOsob" id="wOsob" name="wOsob">Wyświetlanie osób
-                                                </label>
+                                            <div class="form-group">
+                                                <label>PACJENCI</label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="aPacjentow" id="aPacjentow" name="aPacjentow" onClick="zaznaczWszystko(this)"><b>Zaznacz wszystkie</b>
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="wPacjentow" id="wPacjentow" name="wPacjentow">Wyświetlanie pacjentów
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="ePacjentow" id="ePacjentow" name="ePacjentow">Edycja pacjentów
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="uPacjentow" id="uPacjentow" name="uPacjentow">Usuwanie pacjentów
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="dPacjentow" id="dPacjentow" name="dPacjentow">Dodawanie pacjentów
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="mOsob" id="mOsob" name="mOsob">Modyfikacja osób
-                                                </label>
+                                            <div class="form-group">
+                                                <label>UŻYTKOWNICY</label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="aUzytkownikow" id="aUzytkownikow" name="aUzytkownikow" onClick="zaznaczWszystko(this)"><b>Zaznacz wszystkie</b>
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="wUzytkownikow" id="wUzytkownikow" name="wUzytkownikow">Wyświetlanie użytkowników
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="eUzytkownikow" id="eUzytkownikow" name="eUzytkownikow">Edycja użytkowników
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="uUzytkownikow" id="uUzytkownikow" name="uUzytkownikow">Usuwanie użytkowników
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="dUzytkownikow" id="dUzytkownikow" name="dUzytkownikow">Dodawanie użytkowników
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="wPacjentow" id="wPacjentow" name="wPacjentow">Wyświetlanie pacjentów
-                                                </label>
+                                            <div class="form-group">
+                                                <label>REJESTRACJE</label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="aRejestracji" id="aRejestracji" name="aRejestracji" onClick="zaznaczWszystko(this)"><b>Zaznacz wszystkie</b>
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="wRejestracji" id="wRejestracji" name="wRejestracji">Wyświetlanie rejestracji
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="eRejestracji" id="eRejestracji" name="eRejestracji">Edycja rejestracji
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="uRejestracji" id="uRejestracji" name="uRejestracji">Usuwanie rejestracji
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="dRejestracji" id="dRejestracji" name="dRejestracji">Dodawanie rejestracji
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="mPacjentow" id="mPacjentow" name="mPacjentow">Modyfikacja pacjentów
-                                                </label>
+                                            <div class="form-group">
+                                                <label>HISTORIE LECZENIA</label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="aHistorii" id="aHistorii" name="aHistorii" onClick="zaznaczWszystko(this)"><b>Zaznacz wszystkie</b>
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="wHistorii" id="wHistorii" name="wHistorii">Wyświetlanie historii leczenia
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="eHistorii" id="eHistorii" name="eHistorii">Edycja historii leczenia
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="uHistorii" id="uHistorii" name="uHistorii">Usuwanie historii leczenia
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="dHistorii" id="dHistorii" name="dHistorii">Dodawanie historii leczenia
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="wUzytkownikow" id="wUzytkownikow" name="wUzytkownikow">Wyświetlanie użytkowników
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="mUzytkownikow" id="mUzytkownikow" name="mUzytkownikow">Modyfikacja użytkowników
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="wRejestracji" id="wRejestracji" name="wRejestracji">Wyświetlanie rejestracji
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="mRejestracji" id="mRejestracji" name="mRejestracji">Modyfikacja rejestracji
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="wHistorii" id="wHistorii" name="wHistorii">Wyświetlanie historii leczenia
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="mHistorii" id="mHistorii" name="mHistorii">Modyfikacja historii leczenia
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="wWizyt" id="wWizyt" name="wWizyt">Wyświetlanie wizyt
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" value="mWizyt" id="mWizyt" name="mWizyt">Modyfikacja wizyt
-                                                </label>
+                                            <div class="form-group">
+                                                <label>WIZYTY</label>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="aWizyt" id="aWizyt" name="aWizyt" onClick="zaznaczWszystko(this)"><b>Zaznacz wszystkie</b>
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="wWizyt" id="wWizyt" name="wWizyt">Wyświetlanie wizyt
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="eWizyt" id="eWizyt" name="eWizyt">Edycja wizyt
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="uWizyt" id="uWizyt" name="uWizyt">Usuwanie wizyt
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="dWizyt" id="dWizyt" name="dWizyt">Dodawanie wizyt
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-default" id="submitButton"></button>
@@ -195,7 +321,22 @@
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
     
-    <script>        
+    <script>
+        function zaznaczWszystko(attr) {
+            var nazwaUprawnien = $(attr).attr('id');
+            nazwaUprawnien = nazwaUprawnien.substring(1);
+            if($(attr).is(':checked'))
+            {
+                $("input[id$='" + nazwaUprawnien + "']").each(function (i, el) {
+                    $(el).attr('checked', true);
+                });
+            } else {
+                $("input[id$='" + nazwaUprawnien + "']").each(function (i, el) {
+                    $(el).attr('checked', false);
+                });
+            }
+        }  
+        
         function checkIfLogged()
         {
             $.ajax({
@@ -216,6 +357,7 @@
 
         function update() {
             var role_id = get('role');
+            var visible = get('visible');
             if (role_id == null || role_id == '' || role_id == 'new') {
                 $(".page-header").html("Dodaj rolę");
                 document.getElementById("submitButton").innerHTML = "Dodaj rolę";
@@ -223,6 +365,19 @@
                 jQuery('input[id=ID]').attr('placeholder', 'ID zostanie nadane automatycznie');
                 
                 jQuery('form[id=roleForm]').attr('action', "../../bsk/rolesmanager/roles/add");
+            }
+            else if (role_id != null && visible == 'no')
+            {
+                $(".page-header").html("Edytuj rolę");
+                
+                jQuery('input[id=ID]').attr('placeholder', 'ID');
+                document.getElementById("submitButton").innerHTML = "Zapisz rolę";
+                
+                jQuery('form[id=roleForm]').attr('action', "../../bsk/rolesmanager/roles/" + role_id + "/edit");
+                
+                $.getJSON('../../bsk/rolesmanager/roles/' + role_id, function (data) {
+                    jQuery('input[id=ID]').attr('value', data[0]["ID"]);                       
+                });
             }
             else if (role_id != null) {
                 $(".page-header").html("Edytuj rolę");
@@ -238,32 +393,66 @@
                     document.getElementById("opisRoli").innerHTML = data[0]["Opis"];
                     if(data[0]["RolaWyświetlanie"])
                         jQuery('input[id=wRol]').attr('checked', 'checked');
-                    if(data[0]["RolaModyfikacja"])
-                        jQuery('input[id=mRol]').attr('checked', 'checked');
+                    if(data[0]["RolaEdycja"])
+                        jQuery('input[id=eRol]').attr('checked', 'checked');
+                    if(data[0]["RolaUsuwanie"])
+                        jQuery('input[id=uRol]').attr('checked', 'checked');
+                    if(data[0]["RolaDodawanie"])
+                        jQuery('input[id=dRol]').attr('checked', 'checked');
+                    
                     if(data[0]["OsobaWyświetlanie"])
                         jQuery('input[id=wOsob]').attr('checked', 'checked');
-                    if(data[0]["OsobaModyfikacja"])
-                        jQuery('input[id=mOsob]').attr('checked', 'checked');
+                    if(data[0]["OsobaEdycja"])
+                        jQuery('input[id=eOsob]').attr('checked', 'checked');
+                    if(data[0]["OsobaUsuwanie"])
+                        jQuery('input[id=uOsob]').attr('checked', 'checked');
+                    if(data[0]["OsobaDodawanie"])
+                        jQuery('input[id=dOsob]').attr('checked', 'checked'); 
+                    
                     if(data[0]["PacjentWyświetlanie"])
                         jQuery('input[id=wPacjentow]').attr('checked', 'checked');
-                    if(data[0]["PacjentModyfikacja"])
-                        jQuery('input[id=mPacjentow]').attr('checked', 'checked');
+                    if(data[0]["PacjentEdycja"])
+                        jQuery('input[id=ePacjentow]').attr('checked', 'checked');
+                    if(data[0]["PacjentUsuwanie"])
+                        jQuery('input[id=uPacjentow]').attr('checked', 'checked');
+                    if(data[0]["PacjentDodawanie"])
+                        jQuery('input[id=dPacjentow]').attr('checked', 'checked');  
+                    
                     if(data[0]["UżytkownikWyświetlanie"])
                         jQuery('input[id=wUzytkownikow]').attr('checked', 'checked');
-                    if(data[0]["UżytkownikModyfikacja"])
-                        jQuery('input[id=mUzytkownikow]').attr('checked', 'checked');
+                    if(data[0]["UżytkownikEdycja"])
+                        jQuery('input[id=eUzytkownikow]').attr('checked', 'checked');
+                    if(data[0]["UżytkownikUsuwanie"])
+                        jQuery('input[id=uUzytkownikow]').attr('checked', 'checked');
+                    if(data[0]["UżytkownikDodawanie"])
+                        jQuery('input[id=dUzytkownikow]').attr('checked', 'checked');  
+                    
                     if(data[0]["RejestracjaWyświetlanie"])
                         jQuery('input[id=wRejestracji]').attr('checked', 'checked');
-                    if(data[0]["RejestracjaModyfikacja"])
-                        jQuery('input[id=mRejestracji]').attr('checked', 'checked');
+                    if(data[0]["RejestracjaEdycja"])
+                        jQuery('input[id=eRejestracji]').attr('checked', 'checked');
+                    if(data[0]["RejestracjaUsuwanie"])
+                        jQuery('input[id=uRejestracji]').attr('checked', 'checked');
+                    if(data[0]["RejestracjaDodawanie"])
+                        jQuery('input[id=dRejestracji]').attr('checked', 'checked');
+                    
                     if(data[0]["HistoriaLeczeniaWyświetlanie"])
                         jQuery('input[id=wHistorii]').attr('checked', 'checked');
-                    if(data[0]["HistoriaLeczeniaModyfikacja"])
-                        jQuery('input[id=mHistorii]').attr('checked', 'checked'); 
+                    if(data[0]["HistoriaLeczeniaEdycja"])
+                        jQuery('input[id=eHistorii]').attr('checked', 'checked');
+                    if(data[0]["HistoriaLeczeniaUsuwanie"])
+                        jQuery('input[id=uHistorii]').attr('checked', 'checked');
+                    if(data[0]["HistoriaLeczeniaDodawanie"])
+                        jQuery('input[id=dHistorii]').attr('checked', 'checked'); 
+                    
                     if(data[0]["WizytaWyświetlanie"])
                         jQuery('input[id=wWizyt]').attr('checked', 'checked');
-                    if(data[0]["WizytaModyfikacja"])
-                        jQuery('input[id=mWizyt]').attr('checked', 'checked');                        
+                    if(data[0]["WizytaEdycja"])
+                        jQuery('input[id=eWizyt]').attr('checked', 'checked');
+                    if(data[0]["WizytaUsuwanie"])
+                        jQuery('input[id=uWizyt]').attr('checked', 'checked');  
+                    if(data[0]["WizytaDodawanie"])
+                        jQuery('input[id=dWizyt]').attr('checked', 'checked');                          
                 });
                 
             }

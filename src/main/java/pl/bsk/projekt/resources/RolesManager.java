@@ -180,6 +180,20 @@ public class RolesManager {
     public void deleteRoleWithID(@PathParam("id") Integer id) throws SQLException, IOException {
         Connect();        
         Statement statement = connection.createStatement();
+        
+        PreparedStatement query = connection.prepareStatement("SELECT * FROM RolaUżytkownika WHERE ID_Rola='" + id.toString() + "';");
+        ResultSet rs = query.executeQuery();   
+        ResultSetMetaData md = rs.getMetaData();
+        int columns = md.getColumnCount();
+        
+        if(columns > 0)
+        {
+            while(rs.next())
+            {
+                statement.executeUpdate("DELETE FROM RolaUżytkownika WHERE ID_Rola = " + id.toString());  
+            }
+        }
+        
         statement.executeUpdate("DELETE FROM Rola WHERE ID = " + id.toString());               
         Disconnect();
         
@@ -193,19 +207,33 @@ public class RolesManager {
                             @FormParam("nazwaRoli") String name,
                             @FormParam("opisRoli") String about,
                             @FormParam("wRol") String wRol,
-                            @FormParam("mRol") String mRol,
+                            @FormParam("eRol") String eRol,
+                            @FormParam("uRol") String uRol,
+                            @FormParam("dRol") String dRol,
                             @FormParam("wOsob") String wOsob,
-                            @FormParam("mOsob") String mOsob,
+                            @FormParam("eOsob") String eOsob,
+                            @FormParam("uOsob") String uOsob,
+                            @FormParam("dOsob") String dOsob,
                             @FormParam("wPacjentow") String wPacjentow,
-                            @FormParam("mPacjentow") String mPacjentow,
+                            @FormParam("ePacjentow") String ePacjentow,
+                            @FormParam("uPacjentow") String uPacjentow,
+                            @FormParam("dPacjentow") String dPacjentow,
                             @FormParam("wUzytkownikow") String wUzytkownikow,
-                            @FormParam("mUzytkownikow") String mUzytkownikow,
+                            @FormParam("eUzytkownikow") String eUzytkownikow,
+                            @FormParam("uUzytkownikow") String uUzytkownikow,
+                            @FormParam("dUzytkownikow") String dUzytkownikow,
                             @FormParam("wRejestracji") String wRejestracji,
-                            @FormParam("mRejestracji") String mRejestracji,
+                            @FormParam("eRejestracji") String eRejestracji,
+                            @FormParam("uRejestracji") String uRejestracji,
+                            @FormParam("dRejestracji") String dRejestracji,
                             @FormParam("wHistorii") String wHistorii,
-                            @FormParam("mHistorii") String mHistorii,
+                            @FormParam("eHistorii") String eHistorii,
+                            @FormParam("uHistorii") String uHistorii,
+                            @FormParam("dHistorii") String dHistorii,
                             @FormParam("wWizyt") String wWizyt,
-                            @FormParam("mWizyt") String mWizyt) throws SQLException, IOException {
+                            @FormParam("eWizyt") String eWizyt,
+                            @FormParam("uWizyt") String uWizyt,
+                            @FormParam("dWizyt") String dWizyt) throws SQLException, IOException {
         Connect();        
         Statement statement = connection.createStatement();
         String query = "UPDATE Rola SET Nazwa='" + name + "', Opis='" + about + "'";
@@ -213,59 +241,120 @@ public class RolesManager {
             query += ", RolaWyświetlanie=1";
         else
             query += ", RolaWyświetlanie=0";
-        if(mRol != null && mRol.equals("mRol"))
-            query += ", RolaModyfikacja=1";
+        if(eRol != null && eRol.equals("eRol"))
+            query += ", RolaEdycja=1";
         else
-            query += ", RolaModyfikacja=0";
+            query += ", RolaEdycja=0";
+        if(uRol != null && uRol.equals("uRol"))
+            query += ", RolaUsuwanie=1";
+        else
+            query += ", RolaUsuwanie=0";
+        if(dRol != null && dRol.equals("dRol"))
+            query += ", RolaDodawanie=1";
+        else
+            query += ", RolaDodawanie=0";
+        
         if(wOsob != null && wOsob.equals("wOsob"))
             query += ", OsobaWyświetlanie=1";
         else
             query += ", OsobaWyświetlanie=0";
-        if(mOsob != null && mOsob.equals("mOsob"))
-            query += ", OsobaModyfikacja=1";
+        if(eOsob != null && eOsob.equals("eOsob"))
+            query += ", OsobaEdycja=1";
         else
-            query += ", OsobaModyfikacja=0";
+            query += ", OsobaEdycja=0";
+        if(uOsob != null && uOsob.equals("uOsob"))
+            query += ", OsobaUsuwanie=1";
+        else
+            query += ", OsobaUsuwanie=0";
+        if(dOsob != null && dOsob.equals("dOsob"))
+            query += ", OsobaDodawanie=1";
+        else
+            query += ", OsobaDodawanie=0";
+        
         if(wPacjentow != null && wPacjentow.equals("wPacjentow"))
             query += ", PacjentWyświetlanie=1";
         else
             query += ", PacjentWyświetlanie=0";
-        if(mPacjentow != null && mPacjentow.equals("mPacjentow"))
-            query += ", PacjentModyfikacja=1";
+        if(ePacjentow != null && ePacjentow.equals("ePacjentow"))
+            query += ", PacjentEdycja=1";
         else
-            query += ", PacjentModyfikacja=0";
+            query += ", PacjentEdycja=0";
+        if(uPacjentow != null && uPacjentow.equals("uPacjentow"))
+            query += ", PacjentUsuwanie=1";
+        else
+            query += ", PacjentUsuwanie=0";
+        if(dPacjentow != null && dPacjentow.equals("dPacjentow"))
+            query += ", PacjentDodawanie=1";
+        else
+            query += ", PacjentDodawanie=0";
+        
         if(wUzytkownikow != null && wUzytkownikow.equals("wUzytkownikow"))
             query += ", UżytkownikWyświetlanie=1";
         else
             query += ", UżytkownikWyświetlanie=0";
-        if(mUzytkownikow != null && mUzytkownikow.equals("mUzytkownikow"))
-            query += ", UżytkownikModyfikacja=1";
+        if(eUzytkownikow != null && eUzytkownikow.equals("eUzytkownikow"))
+            query += ", UżytkownikEdycja=1";
         else
-            query += ", UżytkownikModyfikacja=0";
+            query += ", UżytkownikEdycja=0";
+        if(uUzytkownikow != null && uUzytkownikow.equals("uUzytkownikow"))
+            query += ", UżytkownikUsuwanie=1";
+        else
+            query += ", UżytkownikUsuwanie=0";
+        if(dUzytkownikow != null && dUzytkownikow.equals("dUzytkownikow"))
+            query += ", UżytkownikDodawanie=1";
+        else
+            query += ", UżytkownikDodawanie=0";
+        
         if(wRejestracji != null && wRejestracji.equals("wRejestracji"))
             query += ", RejestracjaWyświetlanie=1";
         else
             query += ", RejestracjaWyświetlanie=0";
-        if(mRejestracji != null && mRejestracji.equals("mRejestracji"))
-            query += ", RejestracjaModyfikacja=1";
+        if(eRejestracji != null && eRejestracji.equals("eRejestracji"))
+            query += ", RejestracjaEdycja=1";
         else
-            query += ", RejestracjaModyfikacja=0";
+            query += ", RejestracjaEdycja=0";
+        if(uRejestracji != null && uRejestracji.equals("uRejestracji"))
+            query += ", RejestracjaUsuwanie=1";
+        else
+            query += ", RejestracjaUsuwanie=0";
+        if(dRejestracji != null && dRejestracji.equals("dRejestracji"))
+            query += ", RejestracjaDodawanie=1";
+        else
+            query += ", RejestracjaDodawanie=0";
+        
         if(wHistorii != null && wHistorii.equals("wHistorii"))
             query += ", HistoriaLeczeniaWyświetlanie=1";
         else
             query += ", HistoriaLeczeniaWyświetlanie=0";
-        if(mHistorii != null && mHistorii.equals("mHistorii"))
-            query += ", HistoriaLeczeniaModyfikacja=1";
+        if(eHistorii != null && eHistorii.equals("eHistorii"))
+            query += ", HistoriaLeczeniaEdycja=1";
         else
-            query += ", HistoriaLeczeniaModyfikacja=0";
+            query += ", HistoriaLeczeniaEdycja=0";
+        if(uHistorii != null && uHistorii.equals("uHistorii"))
+            query += ", HistoriaLeczeniaUsuwanie=1";
+        else
+            query += ", HistoriaLeczeniaUsuwanie=0";
+        if(dHistorii != null && dHistorii.equals("dHistorii"))
+            query += ", HistoriaLeczeniaDodawanie=1";
+        else
+            query += ", HistoriaLeczeniaDodawanie=0";
+        
         if(wWizyt != null && wWizyt.equals("wWizyt"))
             query += ", WizytaWyświetlanie=1";
         else
             query += ", WizytaWyświetlanie=0";
-        if(mWizyt != null && mWizyt.equals("mWizyt"))
-            query += ", WizytaModyfikacja=1";
+        if(eWizyt != null && eWizyt.equals("eWizyt"))
+            query += ", WizytaEdycja=1";
         else
-            query += ", WizytaModyfikacja=0";
-        
+            query += ", WizytaEdycja=0";
+        if(uWizyt != null && uWizyt.equals("uWizyt"))
+            query += ", WizytaUsuwanie=1";
+        else
+            query += ", WizytaUsuwanie=0";
+        if(dWizyt != null && dWizyt.equals("dWizyt"))
+            query += ", WizytaDodawanie=1";
+        else
+            query += ", WizytaDodawanie=0";        
         
         query += " WHERE ID = " + id.toString();
         statement.executeUpdate(query);           
@@ -277,23 +366,37 @@ public class RolesManager {
     // Funkcja do dodawania roli
     @POST
     @Path("roles/add")
-    public void addRole(@FormParam("ID") String ID,
-                    @FormParam("nazwaRoli") String name,
-                    @FormParam("opisRoli") String about,
-                    @FormParam("wRol") String wRol,
-                    @FormParam("mRol") String mRol,
-                    @FormParam("wOsob") String wOsob,
-                    @FormParam("mOsob") String mOsob,
-                    @FormParam("wPacjentow") String wPacjentow,
-                    @FormParam("mPacjentow") String mPacjentow,
-                    @FormParam("wUzytkownikow") String wUzytkownikow,
-                    @FormParam("mUzytkownikow") String mUzytkownikow,
-                    @FormParam("wRejestracji") String wRejestracji,
-                    @FormParam("mRejestracji") String mRejestracji,
-                    @FormParam("wHistorii") String wHistorii,
-                    @FormParam("mHistorii") String mHistorii,
-                    @FormParam("wWizyt") String wWizyt,
-                    @FormParam("mWizyt") String mWizyt) throws IOException, SQLException
+    public void addRole(@PathParam("id") Integer id,
+                        @FormParam("nazwaRoli") String name,
+                        @FormParam("opisRoli") String about,
+                        @FormParam("wRol") String wRol,
+                        @FormParam("eRol") String eRol,
+                        @FormParam("uRol") String uRol,
+                        @FormParam("dRol") String dRol,
+                        @FormParam("wOsob") String wOsob,
+                        @FormParam("eOsob") String eOsob,
+                        @FormParam("uOsob") String uOsob,
+                        @FormParam("dOsob") String dOsob,
+                        @FormParam("wPacjentow") String wPacjentow,
+                        @FormParam("ePacjentow") String ePacjentow,
+                        @FormParam("uPacjentow") String uPacjentow,
+                        @FormParam("dPacjentow") String dPacjentow,
+                        @FormParam("wUzytkownikow") String wUzytkownikow,
+                        @FormParam("eUzytkownikow") String eUzytkownikow,
+                        @FormParam("uUzytkownikow") String uUzytkownikow,
+                        @FormParam("dUzytkownikow") String dUzytkownikow,
+                        @FormParam("wRejestracji") String wRejestracji,
+                        @FormParam("eRejestracji") String eRejestracji,
+                        @FormParam("uRejestracji") String uRejestracji,
+                        @FormParam("dRejestracji") String dRejestracji,
+                        @FormParam("wHistorii") String wHistorii,
+                        @FormParam("eHistorii") String eHistorii,
+                        @FormParam("uHistorii") String uHistorii,
+                        @FormParam("dHistorii") String dHistorii,
+                        @FormParam("wWizyt") String wWizyt,
+                        @FormParam("eWizyt") String eWizyt,
+                        @FormParam("uWizyt") String uWizyt,
+                        @FormParam("dWizyt") String dWizyt) throws IOException, SQLException
     {
         Connect();
         Statement statement = connection.createStatement();
@@ -303,55 +406,117 @@ public class RolesManager {
             query += ", 1";
         else
             query += ", 0";
-        if(mRol != null && mRol.equals("mRol"))
+        if(eRol != null && eRol.equals("eRol"))
             query += ", 1";
         else
             query += ", 0";
+        if(uRol != null && uRol.equals("uRol"))
+            query += ", 1";
+        else
+            query += ", 0";
+        if(dRol != null && dRol.equals("dRol"))
+            query += ", 1";
+        else
+            query += ", 0";
+        
         if(wOsob != null && wOsob.equals("wOsob"))
             query += ", 1";
         else
             query += ", 0";
-        if(mOsob != null && mOsob.equals("mOsob"))
+        if(eOsob != null && eOsob.equals("eOsob"))
             query += ", 1";
         else
             query += ", 0";
+        if(uOsob != null && uOsob.equals("uOsob"))
+            query += ", 1";
+        else
+            query += ", 0";
+        if(dOsob != null && dOsob.equals("dOsob"))
+            query += ", 1";
+        else
+            query += ", 0";
+        
         if(wPacjentow != null && wPacjentow.equals("wPacjentow"))
             query += ", 1";
         else
             query += ", 0";
-        if(mPacjentow != null && mPacjentow.equals("mPacjentow"))
+        if(ePacjentow != null && ePacjentow.equals("ePacjentow"))
             query += ", 1";
         else
             query += ", 0";
+        if(uPacjentow != null && uPacjentow.equals("uPacjentow"))
+            query += ", 1";
+        else
+            query += ", 0";
+        if(dPacjentow != null && dPacjentow.equals("dPacjentow"))
+            query += ", 1";
+        else
+            query += ", 0";
+        
         if(wUzytkownikow != null && wUzytkownikow.equals("wUzytkownikow"))
             query += ", 1";
         else
             query += ", 0";
-        if(mUzytkownikow != null && mUzytkownikow.equals("mUzytkownikow"))
+        if(eUzytkownikow != null && eUzytkownikow.equals("eUzytkownikow"))
             query += ", 1";
         else
             query += ", 0";
+        if(uUzytkownikow != null && uUzytkownikow.equals("uUzytkownikow"))
+            query += ", 1";
+        else
+            query += ", 0";
+        if(dUzytkownikow != null && dUzytkownikow.equals("dUzytkownikow"))
+            query += ", 1";
+        else
+            query += ", 0";
+        
         if(wRejestracji != null && wRejestracji.equals("wRejestracji"))
             query += ", 1";
         else
             query += ", 0";
-        if(mRejestracji != null && mRejestracji.equals("mRejestracji"))
+        if(eRejestracji != null && eRejestracji.equals("eRejestracji"))
             query += ", 1";
         else
             query += ", 0";
+        if(uRejestracji != null && uRejestracji.equals("uRejestracji"))
+            query += ", 1";
+        else
+            query += ", 0";
+        if(dRejestracji != null && dRejestracji.equals("dRejestracji"))
+            query += ", 1";
+        else
+            query += ", 0";
+        
         if(wHistorii != null && wHistorii.equals("wHistorii"))
             query += ", 1";
         else
             query += ", 0";
-        if(mHistorii != null && mHistorii.equals("mHistorii"))
+        if(eHistorii != null && eHistorii.equals("eHistorii"))
             query += ", 1";
         else
             query += ", 0";
+        if(uHistorii != null && uHistorii.equals("uHistorii"))
+            query += ", 1";
+        else
+            query += ", 0";
+        if(dHistorii != null && dHistorii.equals("dHistorii"))
+            query += ", 1";
+        else
+            query += ", 0";
+        
         if(wWizyt != null && wWizyt.equals("wWizyt"))
             query += ", 1";
         else
             query += ", 0";
-        if(mWizyt != null && mWizyt.equals("mWizyt"))
+        if(eWizyt != null && eWizyt.equals("eWizyt"))
+            query += ", 1";
+        else
+            query += ", 0";
+        if(uWizyt != null && uWizyt.equals("uWizyt"))
+            query += ", 1";
+        else
+            query += ", 0";
+        if(dWizyt != null && dWizyt.equals("dWizyt"))
             query += ", 1";
         else
             query += ", 0";

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Lista ról - BSK Projekt</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -160,14 +160,27 @@
                         for (var i = 0, len = data4.length; i < len; i++) {
                             var dataRow = new Array();
                             dataRow.push(data4[i]["ID"]);
-                            dataRow.push(data4[i]["Nazwa"]);
-                            dataRow.push(data4[i]["Opis"]);
-                            if(data3[0]["RolaModyfikacja"] == true) {
+                            if(data3[0]["RolaWyświetlanie"] == true) {
+                                dataRow.push(data4[i]["Nazwa"]);
+                            } else {
+                                dataRow.push("");
+                            }                            
+                            if(data3[0]["RolaWyświetlanie"] == true) {
+                                dataRow.push(data4[i]["Opis"]);
+                            } else {
+                                dataRow.push("");
+                            }      
+                            if(data3[0]["RolaEdycja"] == true && data3[0]["RolaWyświetlanie"] != true) {
+                                dataRow.push("<a href=\"rolesedit.html?visible=no&role=" + data4[i]["ID"] + "\">Edytuj</a>");
+                            } else if(data3[0]["RolaEdycja"] == true) {
                                 dataRow.push("<a href=\"rolesedit.html?role=" + data4[i]["ID"] + "\">Edytuj</a>");
+                            } else {
+                                dataRow.push("");
+                            }
+                            if(data3[0]["RolaUsuwanie"] == true) {
                                 dataRow.push("<form id=\"delete-form\" action=\"../../bsk/rolesmanager/roles/" + data4[i]["ID"] + 
                                     "/delete\" method=\"post\"><button type=\"submit\">Usuń</button></form>");
                             } else {
-                                dataRow.push("");
                                 dataRow.push("");
                             } 
                             array.push(dataRow);
