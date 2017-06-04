@@ -156,7 +156,65 @@ public class Main {
                     "<!-- /.nav-second-level -->" + 
                 "</li>";
             }
+            
+            
+            if(row.get("RejestracjaWyświetlanie").toString().equals("true") || row.get("RejestracjaEdycja").toString().equals("true") || row.get("RejestracjaDodawanie").toString().equals("true") || row.get("RejestracjaUsuwanie").toString().equals("true"))
+            {
+                menu += "<li>" + 
+                    "<a href=\"#\"><i class=\"fa fa-pencil-square-o fa-fw\"></i> Rejestracje<span class=\"fa arrow\"></span></a>" + 
+                        "<ul class=\"nav nav-second-level\">";
 
+                    menu += "<li>" + 
+                                "<a href=\"registration.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj rejestracje</a>" + 
+                            "</li>";
+                    if(row.get("RejestracjaDodawanie").toString().equals("true"))
+                    {
+                        menu += "<li>" + 
+                                    "<a href=\"register.html?id=0\"><i class=\"fa fa-plus-square fa-fw\"></i> Rejestruj</a>" + 
+                                "</li>";
+                    }
+                
+                menu += "</ul>" + 
+                    "<!-- /.nav-second-level -->" + 
+                "</li>";
+            }
+            
+            if(row.get("WizytaWyświetlanie").toString().equals("true") || row.get("WizytaEdycja").toString().equals("true") || row.get("WizytaDodawanie").toString().equals("true") || row.get("WizytaUsuwanie").toString().equals("true"))
+            {
+                menu += "<li>" + 
+                    "<a href=\"#\"><i class=\"fa fa-briefcase fa-fw\"></i> Wizyty <span class=\"fa arrow\"></span></a>" + 
+                        "<ul class=\"nav nav-second-level\">";
+
+                    menu += "<li>" + 
+                                "<a href=\"visit.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj wizyty</a>" + 
+                            "</li>";
+                    if(row.get("WizytaDodawanie").toString().equals("true"))
+                    {
+                        menu += "<li>" + 
+                                    "<a href=\"addVisit.html?id=0\"><i class=\"fa fa-plus-square fa-fw\"></i> Nowa wizyta</a>" + 
+                                "</li>";
+                    }
+                
+                menu += "</ul>" + 
+                    "<!-- /.nav-second-level -->" + 
+                "</li>";
+            }
+            
+            if(row.get("HistoriaLeczeniaWyświetlanie").toString().equals("true") || row.get("HistoriaLeczeniaEdycja").toString().equals("true") || row.get("HistoriaLeczeniaDodawanie").toString().equals("true") || row.get("HistoriaLeczeniaUsuwanie").toString().equals("true"))
+            {
+                menu += "<li>" + 
+                    "<a href=\"#\"><i class=\"fa fa-folder-o fa-fw\"></i> Kartoteka <span class=\"fa arrow\"></span></a>" + 
+                        "<ul class=\"nav nav-second-level\">";
+
+                    menu += "<li>" + 
+                                "<a href=\"kartoteka.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj kartotekę</a>" + 
+                            "</li>";
+                
+                menu += "</ul>" + 
+                    "<!-- /.nav-second-level -->" + 
+                "</li>";
+            }
+            
             menu += "</ul>";
         }
         

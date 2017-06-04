@@ -181,10 +181,10 @@
                         document.getElementById("phone").innerHTML = "Numer telefonu: "+data[0]["NumerTelefonu"];
                         document.getElementById("address").innerHTML = "Adres: "+data[0]["Adres"];
 
-                        if(data3[0]["RejestracjaModyfikacja"] == true) {
-                            document.getElementById("register").innerHTML="<a href=\"registration.html?id=" + id + "\"><center> Umów wizytę</center></a>";
+                        if(data3[0]["RejestracjaDodawanie"] == true) {
+                            document.getElementById("register").innerHTML="<a href=\"register.html?id=" + id + "\"><center> Umów wizytę</center></a>";
                         }
-                        if(data3[0]["WizytaModyfikacja"] == true) {
+                        if(data3[0]["WizytaDodawanie"] == true) {
                             document.getElementById("newVisit").innerHTML="<a href=\"visit.html?id=" + id + "\"><center> Przyjmij pacjenta</center></a>";
                         }
                     });                    
