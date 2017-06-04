@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="daneUzytkownika"></li>
+                <li><a href="../../bsk/logout"><i class="fa fa-sign-out fa-fw"></i> Wyloguj</a></li>
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse miejsceNaMenu">                    
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header"></h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row" style="float:left; width:50%;">
+                                <div class="col-lg-6">
+                                    
+                                       
+                                        <div class="form-group">
+                                            <label>Imię</label>
+                                            <input class="form-control" id="imie" name="imie" type="text" placeholder="Imię" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Nazwisko</label>
+                                            <input class="form-control" id="nazwisko" name="nazwisko" type="text" placeholder="Nazwisko" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>PESEL</label>
+                                            <input class="form-control" id="pesel" name="pesel" type="text" placeholder="Pesel" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Data urodzenia (RRRR-MM-DD)</label>
+                                            <input class="form-control" id="dataUrodzenia" name="dataUrodzenia" type="text" placeholder="Data urodzenia" >
+                                        </div>
+                       
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                            <form id="accountForm" role="form" method="post">
+                            <div style="float:left; width:50%;">
+                                <div class="form-group">     
+                                     <input type="hidden" id="idPacjenta" name="idPacjenta">
+                                     
+                                </div>
+                                <div class="form-group">
+                                    <label for="idLekarza" >Lekarz</label><br>
+                                    <select name="idLekarza" id="idLekarza">
+                                        
+                                    </select>
+                                </div>
+
+                                <!--dodac wybieranie z kalendarza -->
+                                <div class="form-group">
+                                            <label>Data wizyty (RRRR-MM-DD)</label>
+                                            <input class="form-control" id="dataWizyty" name="dataWizyty" type="text" placeholder="Tutaj podaj datę wizyty w formacie RRRR-MM-DD">
+                                </div>
+                                <div class="form-group">
+                                            <label>Godzina wizyty (HH:MM)</label>
+                                            <input class="form-control" id="godzinaWizyty" name="godzinaWizyty" type="text" placeholder="Tutaj podaj godzinę wizyty w formacie HH-MM">
+                                </div>
+                                
+
+                            </div>
+                                <br> </br>    
+                            <button type="submit" class="btn btn-default" id="submitButton"></button>
+                            </form>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+    
+    <script>
+        function get(name) {
+            if (getArg = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
+                return decodeURIComponent(getArg[1]);
+        }
+        
+        function getDoctors(){
+            $.getJSON('../../bsk/registration/getDoctors', function (data) {
+                    for (var i = 0, len = data.length; i < len; i++) {
+                        $('#idLekarza').append("<option value="+data[i]["ID"]+">"+"dr "+data[i]["Imię"]+" "+data[i]["Nazwisko"]+"</option>");
+                    }
+            });
+        }
+        
+        function update() {
+            var person_id = get('id');
+            if (person_id != null) {
+                // nagłówek strony
+                $(".page-header").html("Rejestracja");
+                // przycisk formularza
+                document.getElementById("submitButton").innerHTML = "Rejestruj";
+                if(person_id==0){                
+                    jQuery('form[id=accountForm]').attr('action', "../../bsk/registration/add");
+                    jQuery('input[id=imie]').attr("");
+                    jQuery('input[id=nazwisko]').attr("");
+                    jQuery('input[id=pesel]').attr("");
+                    jQuery('input[id=dataUrodzenia]').attr("");
+                    jQuery('input[id=idPacjenta]').attr("");
+                }
+                else{
+                    $.getJSON('../../bsk/peoplemanager/person/' + person_id, function (data) {
+                    // atrybut action formularza                
+                    jQuery('form[id=accountForm]').attr('action', "../../bsk/registration/add");
+                    jQuery('input[id=imie]').attr('value', data[0]["Imię"]);
+                    jQuery('input[id=imie]').prop('disabled', true);
+                    jQuery('input[id=nazwisko]').attr('value', data[0]["Nazwisko"]);
+                    jQuery('input[id=nazwisko]').prop('disabled', true);
+                    jQuery('input[id=pesel]').attr('value', data[0]["PESEL"]);
+                    jQuery('input[id=pesel]').prop('disabled', true);
+                    jQuery('input[id=dataUrodzenia]').attr('value', data[0]["DataUrodzenia"]);
+                    jQuery('input[id=dataUrodzenia]').prop('disabled', true);
+                    jQuery('input[id=idPacjenta]').attr('value', person_id);
+
+                    });                 
+                }
+            }
+        }
+        
+        $(document).ready(function() {
+            
+            update();
+            getDoctors();
+            
+            $.getJSON('../../bsk/login/info/all', function (data) {
+            var login = data[0].toString();
+            $.getJSON('../../bsk/peoplemanager/account/' + login, function (data2) {
+                var tekst = "<a href=\"#\">Zalogowany: " + login + " | rola: " + data2[0]["ObecnaRola"] + "</a>"
+                $(".daneUzytkownika").html(tekst);
+
+                $.ajax({
+                    url: "../../bsk/menu/" + data2[0]["ObecnaRola"]
+                }).then(function(data) {
+                    $(".miejsceNaMenu").html(data);  
+                });
+            });
+        });
+        });
+    </script>
+
+</body>
+
+</html>

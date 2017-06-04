@@ -56,7 +56,7 @@ public class RegistrationManager {
     @GET
     @Path("getDoctors")
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList getAllRoles() throws SQLException {
+    public ArrayList getAllDoctors() throws SQLException {
         Connect();
         PreparedStatement query = connection.prepareStatement("SELECT * FROM Osoba where TypOsoby='Lekarz'");
         ResultSet rs = query.executeQuery();
@@ -88,11 +88,46 @@ public class RegistrationManager {
         return list;
     }
     
+     // Funkcja pobiera z bazy danych wysztkie rejestracje 
+    @GET
+    @Path("getAll")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList getRegistration() throws SQLException {
+        Connect();
+        PreparedStatement query = connection.prepareStatement("SELECT * From Wizyta;");
+        ResultSet rs = query.executeQuery();
+        int count = 0;        
+   
+        while(rs.next())
+            count++;
+        
+        ArrayList list = new ArrayList(count);
+        if(count > 0)
+        {
+            rs = query.executeQuery();
+            ResultSetMetaData md = rs.getMetaData();
+            int columns = md.getColumnCount();
+            
+            
+            while (rs.next())
+            {
+                HashMap row = new HashMap(columns);
+                for (int i = 1; i <= columns; ++i)
+                    row.put(md.getColumnName(i), rs.getObject(i));
+                list.add(row);
+            }
+            Disconnect();
+            return list;
+        }
+        
+        Disconnect();
+        return list;
+    }
     
     //dodanie rejestracji
     @POST
     @Path("add")
-    public void addRole(@FormParam("ID") String ID,
+    public void addRegistration(@FormParam("ID") String ID,
                       @FormParam("idPacjenta") String patientID,
                       @FormParam("idLekarza") String doctorID,
                       @FormParam("dataWizyty") String date,
@@ -108,5 +143,65 @@ public class RegistrationManager {
         
         response.sendRedirect("../../admin/pages/patients.html");
     }
+    
+    //usuwanie rejestracji po id
+    @POST
+    @Path("{id}/delete")
+    public void deleteRegistration(@PathParam("id") Integer IDRejestracja) throws SQLException, IOException {
+        Connect();        
+        Statement statement = connection.createStatement(); 
+        
+        statement.executeUpdate("DELETE FROM Wizyta WHERE ID = " + IDRejestracja.toString());               
+        Disconnect();
+        
+        response.sendRedirect("../../../../admin/pages/registration.html");
+    }
+    
+    //Zwraca info o rejestracji
+    @GET
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList getInfoAboutPerson(@PathParam("id") int id) throws SQLException {
+        Connect();
+        PreparedStatement query = connection.prepareStatement("SELECT * from Wizyta WHERE ID="+id);
+        ResultSet rs = query.executeQuery();
+        
+        ArrayList list=new ArrayList(1);
+        ResultSetMetaData md = rs.getMetaData();
+        int columns = md.getColumnCount();
+        
+        while(rs.next()){
+        HashMap row = new HashMap(columns);   
+        for (int i = 1; i <= columns; ++i)
+            row.put(md.getColumnName(i), rs.getObject(i));
+        list.add(row);
+        }
+        
+        
+        Disconnect();
+        return list;
+    }
+    
+    // Funkcja edytuje w bazie danych info o rejestracji
+    @POST
+    @Path("{id}/edit")
+        public void editPersonWithID(@PathParam("id") Integer IDRejestracja,
+                        @FormParam("idPacjent") String IDPacjent,
+                        @FormParam("idLekarz") String IDLekarz,
+                        @FormParam("dataWizyty") String dataWizyty,
+                        @FormParam("godzinaWizyty") String godzinaWizyty,
+                        @FormParam("czyOdbyta") String czyOdbyta ) throws IOException, SQLException
+    {
+        Connect();        
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("UPDATE Wizyta SET ID_Pacjent='" + IDPacjent + "', ID_Lekarz='" +
+                IDLekarz + "', DataWizyty='" + dataWizyty + "', GodzinaWizyty='" + godzinaWizyty + 
+                "', CzyOdbyta='" + czyOdbyta + "' WHERE ID = " + IDRejestracja);           
+        Disconnect();
+        
+        response.sendRedirect("../../../../rest/admin/pages/registration.html");
+    }
+    
+    
     
 }
