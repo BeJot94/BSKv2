@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Lista rejestracji - BSK Projekt</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -168,43 +168,7 @@
             });
         }
         
-        function update() {
-            var person_id = get('id');
-            if (person_id != null) {
-                // nagłówek strony
-                $(".page-header").html("Rejestracja");
-                // przycisk formularza
-                document.getElementById("submitButton").innerHTML = "Rejestruj";
-                if(person_id==0){                
-                    jQuery('form[id=accountForm]').attr('action', "../../bsk/registration/add");
-                    jQuery('input[id=imie]').attr("");
-                    jQuery('input[id=nazwisko]').attr("");
-                    jQuery('input[id=pesel]').attr("");
-                    jQuery('input[id=dataUrodzenia]').attr("");
-                    jQuery('input[id=idPacjenta]').attr("");
-                }
-                else{
-                    $.getJSON('../../bsk/peoplemanager/person/' + person_id, function (data) {
-                    // atrybut action formularza                
-                    jQuery('form[id=accountForm]').attr('action', "../../bsk/registration/add");
-                    jQuery('input[id=imie]').attr('value', data[0]["Imię"]);
-                    jQuery('input[id=imie]').prop('disabled', true);
-                    jQuery('input[id=nazwisko]').attr('value', data[0]["Nazwisko"]);
-                    jQuery('input[id=nazwisko]').prop('disabled', true);
-                    jQuery('input[id=pesel]').attr('value', data[0]["PESEL"]);
-                    jQuery('input[id=pesel]').prop('disabled', true);
-                    jQuery('input[id=dataUrodzenia]').attr('value', data[0]["DataUrodzenia"]);
-                    jQuery('input[id=dataUrodzenia]').prop('disabled', true);
-                    jQuery('input[id=idPacjenta]').attr('value', person_id);
-
-                    });                 
-                }
-            }
-        }
-        
         $(document).ready(function() {
-            
-            update();
             getDoctors();
             
             $.getJSON('../../bsk/login/info/all', function (data) {
@@ -217,6 +181,48 @@
                     url: "../../bsk/menu/" + data2[0]["ObecnaRola"]
                 }).then(function(data) {
                     $(".miejsceNaMenu").html(data);  
+                });
+                
+                 var rola = data2[0]["ObecnaRola"];
+                $.getJSON('../../bsk/rolesmanager/role/' + rola, function (data3) {
+                    if(!data3[0]["RejestracjaWyświetlanie"] && !(data3[0]["RejestracjaEdycja"] || 
+                            data3[0]["RejestracjaDodawanie"] || data3[0]["RejestracjaUsuwanie"]))
+                    {
+                        window.location.href = "../index.html";
+                    }
+                    
+                    var person_id = get('id');
+                    if (person_id != null) {
+                        // nagłówek strony
+                        $(".page-header").html("Rejestracja");
+                        // przycisk formularza
+                        document.getElementById("submitButton").innerHTML = "Rejestruj";
+                        if(person_id == 0) {                
+                            jQuery('form[id=accountForm]').attr('action', "../../bsk/registration/add");
+                            jQuery('input[id=imie]').attr("");
+                            jQuery('input[id=nazwisko]').attr("");
+                            jQuery('input[id=pesel]').attr("");
+                            jQuery('input[id=dataUrodzenia]').attr("");
+                            jQuery('input[id=idPacjenta]').attr("");
+                        } else {
+                            $.getJSON('../../bsk/peoplemanager/person/' + person_id, function (data4) {
+                            // atrybut action formularza                
+                            jQuery('form[id=accountForm]').attr('action', "../../bsk/registration/add");
+                            if(data3[0]["RejestracjaWyświetlanie"])
+                            {
+                                jQuery('input[id=imie]').attr('value', data4[0]["Imię"]);
+                                jQuery('input[id=nazwisko]').attr('value', data4[0]["Nazwisko"]);
+                                jQuery('input[id=pesel]').attr('value', data4[0]["PESEL"]);
+                                jQuery('input[id=dataUrodzenia]').attr('value', data4[0]["DataUrodzenia"]);
+                            }
+                            jQuery('input[id=imie]').prop('disabled', true);
+                            jQuery('input[id=nazwisko]').prop('disabled', true);
+                            jQuery('input[id=pesel]').prop('disabled', true);
+                            jQuery('input[id=dataUrodzenia]').prop('disabled', true);
+                            jQuery('input[id=idPacjenta]').attr('value', person_id);
+                            });                 
+                        }
+                    }
                 });
             });
         });

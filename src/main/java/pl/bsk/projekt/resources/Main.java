@@ -106,18 +106,24 @@ public class Main {
                     "<a href=\"index.html\"><i class=\"fa fa-dashboard fa-fw\"></i> Strona główna</a>" + 
                 "</li>";
 
-            if(row.get("RolaWyświetlanie").toString().equals("true") || row.get("RolaEdycja").toString().equals("true"))
+            if(row.get("RolaWyświetlanie").toString().equals("true") || 
+                    row.get("RolaEdycja").toString().equals("true") ||
+                    row.get("RolaDodawanie").toString().equals("true") ||
+                    row.get("RolaUsuwanie").toString().equals("true"))
             {
                 menu += "<li>" + 
                     "<a href=\"#\"><i class=\"fa fa-cog fa-fw\"></i> Role<span class=\"fa arrow\"></span></a>" + 
                         "<ul class=\"nav nav-second-level\">";
-                if(row.get("RolaWyświetlanie").toString().equals("true"))
+                if(row.get("RolaWyświetlanie").toString().equals("true") ||
+                        row.get("RolaEdycja").toString().equals("true") ||
+                        row.get("RolaUsuwanie").toString().equals("true"))
                 {
                     menu += "<li>" + 
                                 "<a href=\"roles.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj role</a>" + 
                             "</li>";
                 }
-                if(row.get("RolaEdycja").toString().equals("true"))
+                if(row.get("RolaEdycja").toString().equals("true") ||
+                        row.get("RolaDodawanie").toString().equals("true"))
                 {
                     menu += "<li>" + 
                                 "<a href=\"rolesedit.html\"><i class=\"fa fa-plus-square fa-fw\"></i> Dodaj rolę</a>" + 
@@ -135,18 +141,31 @@ public class Main {
                 "</li>";
             }
 
-            if(row.get("OsobaWyświetlanie").toString().equals("true") || row.get("OsobaEdycja").toString().equals("true"))
+            if(row.get("OsobaWyświetlanie").toString().equals("true") ||
+                    row.get("OsobaEdycja").toString().equals("true") ||
+                    row.get("OsobaUsuwanie").toString().equals("true") ||
+                    row.get("OsobaDodawanie").toString().equals("true") ||
+                    row.get("UżytkownikWyświetlanie").toString().equals("true") ||
+                    row.get("UżytkownikEdycja").toString().equals("true") ||
+                    row.get("UżytkownikUsuwanie").toString().equals("true") ||
+                    row.get("UżytkownikDodawanie").toString().equals("true"))
             {
                 menu += "<li>" + 
                     "<a href=\"#\"><i class=\"fa fa-users  fa-fw\"></i> Osoby<span class=\"fa arrow\"></span></a>" + 
                         "<ul class=\"nav nav-second-level\">";
-                if(row.get("OsobaWyświetlanie").toString().equals("true"))
+                if(row.get("OsobaWyświetlanie").toString().equals("true") ||
+                    row.get("OsobaEdycja").toString().equals("true") ||
+                    row.get("OsobaUsuwanie").toString().equals("true") ||
+                    row.get("UżytkownikWyświetlanie").toString().equals("true") ||
+                    row.get("UżytkownikEdycja").toString().equals("true") ||
+                    row.get("UżytkownikUsuwanie").toString().equals("true"))
                 {
                     menu += "<li>" + 
                                 "<a href=\"people.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj osoby</a>" + 
                             "</li>";
                 }
-                if(row.get("OsobaEdycja").toString().equals("true"))
+                if(row.get("OsobaEdycja").toString().equals("true") ||
+                        row.get("OsobaDodawanie").toString().equals("true"))
                 {
                     menu += "<li>" + 
                                 "<a href=\"personedit.html\"><i class=\"fa fa-plus-square fa-fw\"></i> Dodaj osobę</a>" + 
@@ -154,65 +173,95 @@ public class Main {
                 }
                 menu += "</ul>" + 
                     "<!-- /.nav-second-level -->" + 
-                "</li>";
+                    "</li>";
             }
             
             
-            if(row.get("RejestracjaWyświetlanie").toString().equals("true") || row.get("RejestracjaEdycja").toString().equals("true") || row.get("RejestracjaDodawanie").toString().equals("true") || row.get("RejestracjaUsuwanie").toString().equals("true"))
+            if(row.get("RejestracjaWyświetlanie").toString().equals("true") ||
+                    row.get("RejestracjaEdycja").toString().equals("true") ||
+                    row.get("RejestracjaDodawanie").toString().equals("true") ||
+                    row.get("RejestracjaUsuwanie").toString().equals("true") ||
+                    row.get("WizytaDodawanie").toString().equals("true"))
             {
                 menu += "<li>" + 
                     "<a href=\"#\"><i class=\"fa fa-pencil-square-o fa-fw\"></i> Rejestracje<span class=\"fa arrow\"></span></a>" + 
                         "<ul class=\"nav nav-second-level\">";
-
+                
+                if(row.get("RejestracjaWyświetlanie").toString().equals("true") ||
+                        row.get("RejestracjaEdycja").toString().equals("true") ||
+                        row.get("RejestracjaUsuwanie").toString().equals("true") ||
+                        row.get("WizytaDodawanie").toString().equals("true"))
+                {
                     menu += "<li>" + 
-                                "<a href=\"registration.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj rejestracje</a>" + 
+                            "<a href=\"registration.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj rejestracje</a>" + 
                             "</li>";
-                    if(row.get("RejestracjaDodawanie").toString().equals("true"))
-                    {
-                        menu += "<li>" + 
-                                    "<a href=\"register.html?id=0\"><i class=\"fa fa-plus-square fa-fw\"></i> Rejestruj</a>" + 
-                                "</li>";
-                    }
+                }
+                    
+                if(row.get("RejestracjaDodawanie").toString().equals("true") ||
+                        row.get("RejestracjaEdycja").toString().equals("true"))
+                {
+                    menu += "<li>" + 
+                                "<a href=\"register.html?id=0\"><i class=\"fa fa-plus-square fa-fw\"></i> Rejestruj</a>" + 
+                            "</li>";
+                }
                 
                 menu += "</ul>" + 
                     "<!-- /.nav-second-level -->" + 
                 "</li>";
             }
             
-            if(row.get("WizytaWyświetlanie").toString().equals("true") || row.get("WizytaEdycja").toString().equals("true") || row.get("WizytaDodawanie").toString().equals("true") || row.get("WizytaUsuwanie").toString().equals("true"))
+            if(row.get("WizytaWyświetlanie").toString().equals("true") || 
+                    row.get("WizytaEdycja").toString().equals("true") || 
+                    row.get("WizytaDodawanie").toString().equals("true") || 
+                    row.get("WizytaUsuwanie").toString().equals("true"))
             {
                 menu += "<li>" + 
-                    "<a href=\"#\"><i class=\"fa fa-briefcase fa-fw\"></i> Wizyty <span class=\"fa arrow\"></span></a>" + 
+                        "<a href=\"#\"><i class=\"fa fa-briefcase fa-fw\"></i> Wizyty <span class=\"fa arrow\"></span></a>" + 
                         "<ul class=\"nav nav-second-level\">";
-
-                    menu += "<li>" + 
-                                "<a href=\"visit.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj wizyty</a>" + 
-                            "</li>";
-                    if(row.get("WizytaDodawanie").toString().equals("true"))
-                    {
-                        menu += "<li>" + 
-                                    "<a href=\"addVisit.html?registerId=0\"><i class=\"fa fa-plus-square fa-fw\"></i> Nowa wizyta</a>" + 
-                                "</li>";
-                    }
                 
+                if(row.get("WizytaDodawanie").toString().equals("true") ||
+                        row.get("WizytaEdycja").toString().equals("true") ||
+                        row.get("WizytaUsuwanie").toString().equals("true"))
+                {
+                menu += "<li>" + 
+                        "<a href=\"visit.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj wizyty</a>" + 
+                        "</li>";
+                }
+                
+                if(row.get("WizytaDodawanie").toString().equals("true") ||
+                        row.get("WizytaEdycja").toString().equals("true"))
+                {
+                    menu += "<li>" + 
+                            "<a href=\"addVisit.html?registerId=0\"><i class=\"fa fa-plus-square fa-fw\"></i> Nowa wizyta</a>" + 
+                            "</li>";
+                }
+
                 menu += "</ul>" + 
                     "<!-- /.nav-second-level -->" + 
                 "</li>";
             }
             
-            if(row.get("HistoriaLeczeniaWyświetlanie").toString().equals("true") || row.get("HistoriaLeczeniaEdycja").toString().equals("true") || row.get("HistoriaLeczeniaDodawanie").toString().equals("true") || row.get("HistoriaLeczeniaUsuwanie").toString().equals("true"))
+            if(row.get("HistoriaLeczeniaWyświetlanie").toString().equals("true") || 
+                    row.get("HistoriaLeczeniaEdycja").toString().equals("true") || 
+                    row.get("HistoriaLeczeniaDodawanie").toString().equals("true") || 
+                    row.get("HistoriaLeczeniaUsuwanie").toString().equals("true"))
             {
-                menu += "<li>" + 
+            menu += "<li>" + 
                     "<a href=\"#\"><i class=\"fa fa-folder-o fa-fw\"></i> Kartoteka <span class=\"fa arrow\"></span></a>" + 
-                        "<ul class=\"nav nav-second-level\">";
+                    "<ul class=\"nav nav-second-level\">";
+            
+            if(row.get("HistoriaLeczeniaWyświetlanie").toString().equals("true") ||
+                    row.get("HistoriaLeczeniaWyświetlanie").toString().equals("true") ||
+                    row.get("HistoriaLeczeniaWyświetlanie").toString().equals("true"))
+            {
+                menu += "<li>" + 
+                        "<a href=\"kartoteka.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj kartotekę</a>" + 
+                        "</li>";
+            }
 
-                    menu += "<li>" + 
-                                "<a href=\"kartoteka.html\"><i class=\"fa fa-table fa-fw\"></i> Przeglądaj kartotekę</a>" + 
-                            "</li>";
-                
-                menu += "</ul>" + 
+            menu += "</ul>" + 
                     "<!-- /.nav-second-level -->" + 
-                "</li>";
+                    "</li>";
             }
             
             menu += "</ul>";
@@ -248,7 +297,7 @@ public class Main {
         List<String> info = new ArrayList<String>();
         if(user != null){
             info.add(user.toString());
-            info.add(session.getAttribute("role").toString());
+            //info.add(session.getAttribute("role").toString());
         }
         
         return info;

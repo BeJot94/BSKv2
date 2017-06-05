@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Zarządzanie wizytą - BSK Projekt</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -149,31 +149,7 @@
             });
         }
         
-        function update() {
-            var visit_id = get('id');
-            if (visit_id != null) {
-                // nagłówek strony
-                $(".page-header").html("Edytuj wizytę");
-                // przycisk formularza
-                document.getElementById("submitButton").innerHTML = "Zapisz";
-                    
-                    $.getJSON('../../bsk/visit/' + visit_id, function (data) {
-                    // atrybut action formularza                
-                    jQuery('form[id=accountForm]').attr('action', "../../bsk/visit/" + data[0]["ID"] + "/edit");
-                    jQuery('input[id=idPacjent]').attr('value', data[0]["ID_Pacjent"]);
-                    jQuery('input[id=idLekarz]').attr('value', data[0]["ID_Lekarz"]);
-                    jQuery('input[id=dataWizyty]').attr('value', data[0]["DataWizyty"]);
-                    jQuery('input[id=godzinaWizyty]').attr('value', data[0]["GodzinaWizyty"]);
-                    jQuery('input[id=id]').attr('value', visit_id);
-
-                    });                 
-                
-            }
-        }
-        
         $(document).ready(function() {
-            
-            update();
             getDoctors();
             
             $.getJSON('../../bsk/login/info/all', function (data) {
@@ -186,6 +162,37 @@
                     url: "../../bsk/menu/" + data2[0]["ObecnaRola"]
                 }).then(function(data) {
                     $(".miejsceNaMenu").html(data);  
+                });
+                
+                var rola = data2[0]["ObecnaRola"];
+                $.getJSON('../../bsk/rolesmanager/role/' + rola, function (data3) {
+                    if(!(data3[0]["WizytaWyświetlanie"] || 
+                            data3[0]["WizytaDodawanie"] || 
+                            data3[0]["WizytaEdycja"]))
+                    {
+                        window.location.href = "../index.html";
+                    }
+                    
+                    var visit_id = get('id');
+                    if (visit_id != null) {
+                        // nagłówek strony
+                        $(".page-header").html("Edytuj wizytę");
+                        // przycisk formularza
+                        document.getElementById("submitButton").innerHTML = "Zapisz";
+
+                            $.getJSON('../../bsk/visit/' + visit_id, function (data4) {
+                            // atrybut action formularza                
+                            jQuery('form[id=accountForm]').attr('action', "../../bsk/visit/" + data4[0]["ID"] + "/edit");
+                            jQuery('input[id=id]').attr('value', visit_id);
+                            if(data3[0]["WizytaWyświetlanie"])
+                            {
+                                jQuery('input[id=idPacjent]').attr('value', data4[0]["ID_Pacjent"]);
+                                jQuery('input[id=idLekarz]').attr('value', data4[0]["ID_Lekarz"]);
+                                jQuery('input[id=dataWizyty]').attr('value', data4[0]["DataWizyty"]);
+                                jQuery('input[id=godzinaWizyty]').attr('value', data4[0]["GodzinaWizyty"]);                                
+                            }
+                            });
+                    }
                 });
             });
         });

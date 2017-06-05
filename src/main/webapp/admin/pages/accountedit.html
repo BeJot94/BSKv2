@@ -98,10 +98,7 @@
                                             <label>Hasło użytkownika</label>
                                             <input class="form-control" id="haslo" name="haslo" type="text" placeholder="Tutaj podaj hasło użytkownika">
                                         </div>
-                                        <div class="form-group">
-                                            <label>Role wybrane</label>
-                                            <input class="form-control" id="wybraneRole" name="wybraneRole" type="text" placeholder="wybraneRole">
-                                        </div>
+                                        <input class="form-control" id="wybraneRole" name="wybraneRole" type="hidden">
                                         <div class="form-group miejsceNaRole">
                                             <label>Role użytkownika:</label>
                                         </div>
@@ -168,49 +165,47 @@
         window.onpaint = checkIfLogged();
         
         function getRolesForUser(IDKonta) {
-            var roles = new Array();
+            var roles;
             $.getJSON('../../bsk/rolesmanager/roles/account/' + IDKonta, function (data) {
+                roles = new Array();
+                
                 for (var i = 0, len = data.length; i < len; i++) {   
                     roles.push(data[i]["Nazwa"]);
                 }
-            });
-            
-            return roles;
-        }
-        
-        function getRoles(IDKonta){
-            var roles = getRolesForUser(IDKonta);
-            var checked;
-            $.getJSON('../../bsk/allroles', function (data) {                
-                for (var i = 0, len = data.length; i < len; i++) {
-                    checked = 0;
-                    for (var j = 0, len2 = roles.length; j < len2; j++) {
-                        if(data[i] === roles[j])
+                
+                $.getJSON('../../bsk/allroles', function (data2) {                
+                    for (var i = 0, len = data2.length; i < len; i++) {
+                        var checked = 0;
+                        for (var j = 0, len2 = roles.length; j < len2; j++) {
+                            if(data2[i] === roles[j])
+                            {
+                                $('.miejsceNaRole').append("<div class=\"checkbox\"><label><input type=\"checkbox\" value=\"" + data2[i] + 
+                                    "\" id=\"" + data2[i] + "\" name=\"" + data2[i] + "\" onclick=\"generateListOfRoles(this);\" checked>" + data2[i] + "</label></div>");
+                                checked++;
+
+                                var html = jQuery('input[id=wybraneRole]').val();
+                                if($("#" + data2[i]).is(':checked')){
+                                    html += "+" + $("#" + data2[i]).val() + ",";
+                                }            
+                                jQuery('input[id=wybraneRole]').attr('value', html);  
+
+                            }           
+                            if(checked > 0)
+                                break;
+                        }
+                        if(checked == 0)
                         {
-                            $('.miejsceNaRole').append("<div class=\"checkbox\"><label><input type=\"checkbox\" value=\"" + data[i] + 
-                                "\" id=\"" + data[i] + "\" name=\"" + data[i] + "\" checked onclick=\"generateListOfRoles(this);\">" + data[i] + "</label></div>");
-                            checked = 1;
-                            
+                            $('.miejsceNaRole').append("<div class=\"checkbox\"><label><input type=\"checkbox\" value=\"" + data2[i] + 
+                                "\" id=\"" + data2[i] + "\" name=\"" + data2[i] + "\" onclick=\"generateListOfRoles(this);\">" + data2[i] + "</label></div>");
+
                             var html = jQuery('input[id=wybraneRole]').val();
-                            if($("#" + data[i]).is(':checked')){
-                                html += "+" + $("#" + data[i]).val() + ",";
+                            if($("#" + data2[i]).is(':checked')){
+                                html += "+" + $("#" + data2[i]).val() + ",";
                             }            
                             jQuery('input[id=wybraneRole]').attr('value', html);  
-                            break;
-                        }                        
+                        }
                     }
-                    if(checked == 0)
-                    {
-                        $('.miejsceNaRole').append("<div class=\"checkbox\"><label><input type=\"checkbox\" value=\"" + data[i] + 
-                            "\" id=\"" + data[i] + "\" name=\"" + data[i] + "\" onclick=\"generateListOfRoles(this);\">" + data[i] + "</label></div>");
-                    
-                    var html = jQuery('input[id=wybraneRole]').val();
-                            if($("#" + data[i]).is(':checked')){
-                                html += "+" + $("#" + data[i]).val() + ",";
-                            }            
-                            jQuery('input[id=wybraneRole]').attr('value', html);  
-                    }
-                }
+                });
             });
         }
         
@@ -218,47 +213,8 @@
             if (getArg = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
                 return decodeURIComponent(getArg[1]);
         }
-
-        function update() {
-            var account_id = get('account');
-            var addNew = get('new');
-            if (addNew == 'yes') {
-                $(".page-header").html("Dodaj użytkownika");
-                
-                document.getElementById("submitButton").innerHTML = "Dodaj użytkownika";
-                jQuery('input[id=IDKonta]').attr('placeholder', 'ID zostanie nadane automatycznie');                
-                jQuery('input[id=IDOsoba]').attr('value', account_id);                
-                $.getJSON('../../bsk/peoplemanager/person/' + account_id, function (data) {        
-                    jQuery('input[id=dane]').attr('value', data[0]["Imię"] + " " + data[0]["Nazwisko"]);
-                });                
-                jQuery('form[id=accountForm]').attr('action', "../../bsk/peoplemanager/account/" + account_id + "/add");
-                
-                getRoles(null);
-            } else {
-                $(".page-header").html("Edytuj użytkownika");
-                
-                jQuery('input[id=IDKonta]').attr('placeholder', 'ID konta');
-                document.getElementById("submitButton").innerHTML = "Zapisz użytkownika";
-                
-                $.getJSON('../../bsk/peoplemanager/person/' + account_id, function (data) {
-                    jQuery('input[id=IDKonta]').attr('value', account_id);
-                    jQuery('input[id=IDOsoba]').attr('value', data[0]["ID"]);                
-                    jQuery('input[id=dane]').attr('value', data[0]["Imię"] + " " + data[0]["Nazwisko"]);
-                    jQuery('input[id=login]').attr('value', data[0]["Login"]);
-                    jQuery('input[id=haslo]').attr('value', data[0]["Hasło"]);
-                
-                    jQuery('form[id=accountForm]').attr('action', "../../bsk/peoplemanager/account/" + data[0]["ID"] + "/edit");
-
-                    getRoles(data[0]["ID"]);
-                });
-                
-                
-            }
-        }
         
         $(document).ready(function() {
-            update();            
-            
             $.getJSON('../../bsk/login/info/all', function (data) {
                 var login = data[0].toString();
                 $.getJSON('../../bsk/peoplemanager/account/' + login, function (data2) {
@@ -269,6 +225,52 @@
                         url: "../../bsk/menu/" + data2[0]["ObecnaRola"]
                     }).then(function(data) {
                         $(".miejsceNaMenu").html(data);  
+                    });
+                    
+                    var rola = data2[0]["ObecnaRola"];
+                    $.getJSON('../../bsk/rolesmanager/role/' + rola, function (data3) {
+                        if(!(data3[0]["UżytkownikWyświetlanie"] || data3[0]["UżytkownikDodawanie"] || 
+                                data3[0]["UżytkownikEdycja"]))
+                        {
+                            window.location.href = "../index.html";
+                        }
+                        var account_id = get('account');
+                        var addNew = get('new');
+                        if (addNew == 'yes') {
+                            $(".page-header").html("Dodaj użytkownika");
+
+                            document.getElementById("submitButton").innerHTML = "Dodaj użytkownika";
+                            jQuery('input[id=IDKonta]').attr('placeholder', 'ID zostanie nadane automatycznie');                
+                            jQuery('input[id=IDOsoba]').attr('value', account_id);                
+                            $.getJSON('../../bsk/peoplemanager/person/' + account_id, function (data4) {        
+                                jQuery('input[id=dane]').attr('value', data4[0]["Imię"] + " " + data4[0]["Nazwisko"]);
+                            });                
+                            jQuery('form[id=accountForm]').attr('action', "../../bsk/peoplemanager/account/" + account_id + "/add");
+
+                            getRoles(null);
+                        } else {
+                            $(".page-header").html("Edytuj użytkownika");
+
+                            jQuery('input[id=IDKonta]').attr('placeholder', 'ID konta');
+                            document.getElementById("submitButton").innerHTML = "Zapisz użytkownika";
+
+                            $.getJSON('../../bsk/peoplemanager/person/' + account_id, function (data4) {
+                                jQuery('input[id=IDKonta]').attr('value', account_id);
+                                jQuery('input[id=IDOsoba]').attr('value', data4[0]["ID"]);   
+                                if(data3[0]["UżytkownikWyświetlanie"])
+                                {
+                                    jQuery('input[id=dane]').attr('value', data4[0]["Imię"] + " " + data4[0]["Nazwisko"]);
+                                    jQuery('input[id=login]').attr('value', data4[0]["Login"]);
+                                    jQuery('input[id=haslo]').attr('value', data4[0]["Hasło"]);
+                                    
+                                    getRolesForUser(account_id);
+                                } else {
+                                    getRolesForUser(-1);
+                                }
+                                
+                                jQuery('form[id=accountForm]').attr('action', "../../bsk/peoplemanager/account/" + data4[0]["ID"] + "/edit");
+                            });
+                        }
                     });
                 });
             });

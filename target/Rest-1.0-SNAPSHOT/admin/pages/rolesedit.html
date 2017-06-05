@@ -375,7 +375,7 @@
                     
                     var rola = data2[0]["ObecnaRola"];
                     $.getJSON('../../bsk/rolesmanager/role/' + rola, function (data3) {
-                        if(!data3[0]["RolaWyświetlanie"] || !data3[0]["RolaDodawanie"] || !data3[0]["RolaEdycja"])
+                        if(!(data3[0]["RolaWyświetlanie"] || data3[0]["RolaDodawanie"] || data3[0]["RolaEdycja"]))
                         {
                             window.location.href = "../index.html";
                         }

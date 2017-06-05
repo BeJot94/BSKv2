@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Zarządzanie wizytą - BSK Projekt</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -85,22 +85,26 @@
                                 </div>
                                 <div class="form-group">
                                             <label>ID Pacjenta</label>
-                                            <input class="form-control" id="idPacjenta" name="idPacjenta" type="text" >
+                                            <input class="form-control" id="idPacjenta" name="idPacjenta" type="text" disabled>
+                                            <input id="idPacjenta" name="idPacjenta" type="hidden">
                                 </div>
                                 <div class="form-group">
                                             <label>ID Lekarza</label>
-                                            <input class="form-control" id="idLekarza" name="idLekarza" type="text" >
+                                            <input class="form-control" id="idLekarza" name="idLekarza" type="text" disabled>
+                                            <input class="form-control" id="idLekarza" name="idLekarza" type="hidden" >
                                 </div>     
                                
 
                                 <!--dodac wybieranie z kalendarza -->
                                 <div class="form-group">
                                             <label>Data wizyty (RRRR-MM-DD)</label>
-                                            <input class="form-control" id="dataWizyty" name="dataWizyty" type="text" placeholder="Tutaj podaj datę wizyty w formacie RRRR-MM-DD">
+                                            <input class="form-control" id="dataWizyty" name="dataWizyty" type="text" placeholder="Tutaj podaj datę wizyty w formacie RRRR-MM-DD" disabled>
+                                            <input class="form-control" id="dataWizyty" name="dataWizyty" type="hidden">
                                 </div>
                                 <div class="form-group">
                                             <label>Godzina wizyty (HH:MM)</label>
-                                            <input class="form-control" id="godzinaWizyty" name="godzinaWizyty" type="text" placeholder="Tutaj podaj godzinę wizyty w formacie HH-MM">
+                                            <input class="form-control" id="godzinaWizyty" name="godzinaWizyty" type="text" placeholder="Tutaj podaj godzinę wizyty w formacie HH-MM" disabled>
+                                            <input class="form-control" id="godzinaWizyty" name="godzinaWizyty" type="hidden">
                                 </div>
                                 
                                 
@@ -143,43 +147,7 @@
                 return decodeURIComponent(getArg[1]);
         }
         
-        function update() {
-            var register_id = get('registerId');
-            if (register_id != null) {
-                // nagłówek strony
-                $(".page-header").html("Wizyta");
-                // przycisk formularza
-                document.getElementById("submitButton").innerHTML = "Zapisz wizytę";
-                if(register_id==0){                
-                    jQuery('form[id=accountForm]').attr('action', "../../bsk/visit/add");
-                    jQuery('input[id=idPacjenta]').attr('value', "");
-                    jQuery('input[id=idLekarza]').attr('value', "");
-                    jQuery('input[id=dataWizyty]').attr('value', "");
-                    jQuery('input[id=godzinaWizyty]').attr('value', "");
-                    jQuery('input[id=idRejestracji]').attr('value', register_id);
-                }
-                else{
-                    $.getJSON('../../bsk/registration/' + register_id, function (data) {
-                    // atrybut action formularza                
-                    jQuery('form[id=accountForm]').attr('action', "../../bsk/visit/add");
-                    jQuery('input[id=idPacjenta]').attr('value', data[0]["ID_Pacjent"]);
-                    jQuery('input[id=idPacjenta]').prop('disabled', true);
-                    jQuery('input[id=idLekarza]').attr('value', data[0]["ID_Lekarz"]);
-                    jQuery('input[id=idLekarza]').prop('disabled', true);
-                    jQuery('input[id=dataWizyty]').attr('value', data[0]["DataWizyty"]);
-                    jQuery('input[id=dataWizyty]').prop('disabled', true);
-                    jQuery('input[id=godzinaWizyty]').attr('value', data[0]["GodzinaWizyty"]);
-                    jQuery('input[id=godzinaWizyty]').prop('disabled', true);
-                    jQuery('input[id=idRejestracji]').attr('value', register_id);
-
-                    });                 
-                }
-            }
-        }
-        
         $(document).ready(function() {
-            
-            update();
             
             $.getJSON('../../bsk/login/info/all', function (data) {
             var login = data[0].toString();
@@ -191,6 +159,47 @@
                     url: "../../bsk/menu/" + data2[0]["ObecnaRola"]
                 }).then(function(data) {
                     $(".miejsceNaMenu").html(data);  
+                });
+                
+                var rola = data2[0]["ObecnaRola"];
+                $.getJSON('../../bsk/rolesmanager/role/' + rola, function (data3) {
+                    if(!(data3[0]["WizytaWyświetlanie"] || 
+                            data3[0]["WizytaDodawanie"] || 
+                            data3[0]["WizytaEdycja"]))
+                    {
+                        window.location.href = "../index.html";
+                    }
+
+                    var register_id = get('registerId');
+                    if (register_id != null) {
+                        // nagłówek strony
+                        $(".page-header").html("Wizyta");
+                        // przycisk formularza
+                        document.getElementById("submitButton").innerHTML = "Zapisz wizytę";
+                        if(register_id == 0){                
+                            jQuery('form[id=accountForm]').attr('action', "../../bsk/visit/add");
+                            jQuery('input[id=idPacjenta]').attr('value', "");
+                            jQuery('input[id=idPacjenta]').prop('disabled', false);
+                            jQuery('input[id=idLekarza]').attr('value', "");
+                            jQuery('input[id=idLekarza]').prop('disabled', false);
+                            jQuery('input[id=dataWizyty]').attr('value', "");
+                            jQuery('input[id=dataWizyty]').prop('disabled', false);
+                            jQuery('input[id=godzinaWizyty]').attr('value', "");
+                            jQuery('input[id=godzinaWizyty]').prop('disabled', false);
+                            jQuery('input[id=idRejestracji]').attr('value', register_id);
+                        } else {
+                            $.getJSON('../../bsk/registration/' + register_id, function (data4) {
+                            // atrybut action formularza                
+                            jQuery('form[id=accountForm]').attr('action', "../../bsk/visit/add");
+                            jQuery('input[id=idPacjenta]').attr('value', data4[0]["ID_Pacjent"]);
+                            jQuery('input[id=idLekarza]').attr('value', data4[0]["ID_Lekarz"]);
+                            jQuery('input[id=dataWizyty]').attr('value', data4[0]["DataWizyty"]);
+                            jQuery('input[id=godzinaWizyty]').attr('value', data4[0]["GodzinaWizyty"]);
+                            jQuery('input[id=idRejestracji]').attr('value', register_id);
+
+                            });                 
+                        }
+                    }
                 });
             });
         });

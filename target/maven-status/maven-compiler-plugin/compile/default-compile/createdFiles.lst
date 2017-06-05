@@ -8,3 +8,4 @@ pl\bsk\projekt\resources\Main.class
 pl\bsk\projekt\resources\RolesManager.class
 pl\bsk\projekt\entities\Book.class
 pl\bsk\projekt\resources\PatientManager.class
+pl\bsk\projekt\resources\VisitManager.class

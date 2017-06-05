@@ -103,10 +103,10 @@ public class VisitManager {
         Connect();
         Statement statement = connection.createStatement();
         
-        statement.executeUpdate("INSERT INTO Wizyta VALUES ('"+patientID+"','"+doctorID+"','"+date+"','"+hour+"')");
+        statement.executeUpdate("INSERT INTO Wizyta VALUES ("+patientID+","+doctorID+",'"+date+"','"+hour+"')");
         
         if(registerID!=0){
-            statement.executeUpdate("UPDATE Rejestracja SET CzyOdbyta='TAK' where ID='"+registerID );
+            statement.executeUpdate("UPDATE Rejestracja SET CzyOdbyta='TAK' where ID="+registerID );
         }
         Disconnect();
         

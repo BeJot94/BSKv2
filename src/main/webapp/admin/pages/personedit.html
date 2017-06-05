@@ -169,55 +169,8 @@
             if (getArg = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
                 return decodeURIComponent(getArg[1]);
         }
-
-        function update() {
-            var person_id = get('person');
-            var visible = get('visible');
-            if (person_id == null || person_id == '' || person_id == 'new') {
-                // nagłówek strony
-                $(".page-header").html("Dodaj osobę");
-                // przycisk formularza
-                document.getElementById("submitButton").innerHTML = "Dodaj osobę";
-                // atrybut action formularza                
-                jQuery('form[id=accountForm]').attr('action', "../../bsk/peoplemanager/person/add");
-                // atrybut placeholder pola ID osoby
-                jQuery('input[id=IDOsoba]').attr('placeholder', 'ID zostanie nadane automatycznie');
-                
-            } else if (person_id != null && visible == 'no') {
-                // nagłówek strony
-                $(".page-header").html("Edytuj osobę");
-                // przycisk formularza
-                document.getElementById("submitButton").innerHTML = "Zapisz osobę";
-                
-                $.getJSON('../../bsk/peoplemanager/person/' + person_id, function (data) {
-                    // atrybut action formularza                
-                    jQuery('form[id=accountForm]').attr('action', "../../bsk/peoplemanager/person/" + data[0]["ID_Osoba"] + "/edit");
-                    jQuery('input[id=IDOsoba]').attr('value', data[0]["ID_Osoba"]);
-                }); 
-            } else if (person_id != null) {
-                // nagłówek strony
-                $(".page-header").html("Edytuj osobę");
-                // przycisk formularza
-                document.getElementById("submitButton").innerHTML = "Zapisz osobę";
-                                
-                $.getJSON('../../bsk/peoplemanager/person/' + person_id, function (data) {
-                    // atrybut action formularza                
-                    jQuery('form[id=accountForm]').attr('action', "../../bsk/peoplemanager/person/" + data[0]["ID_Osoba"] + "/edit");
-                    jQuery('input[id=IDOsoba]').attr('value', data[0]["ID_Osoba"]);
-                    jQuery('input[id=imie]').attr('value', data[0]["Imię"]);
-                    jQuery('input[id=nazwisko]').attr('value', data[0]["Nazwisko"]);
-                    jQuery('input[id=pesel]').attr('value', data[0]["PESEL"]);
-                    jQuery('input[id=dataUrodzenia]').attr('value', data[0]["DataUrodzenia"]);
-                    jQuery('option[id=' + data[0]["TypOsoby"] + ']').attr('selected', 'selected');
-                    jQuery('input[id=plec]').attr('value', data[0]["Płeć"]);
-                    jQuery('input[id=adres]').attr('value', data[0]["Adres"]);
-                    jQuery('input[id=telefon]').attr('value', data[0]["NumerTelefonu"]);
-                });                
-            }
-        }
         
         $(document).ready(function() {
-            update();
             $.getJSON('../../bsk/login/info/all', function (data) {
                 var login = data[0].toString();
                 $.getJSON('../../bsk/peoplemanager/account/' + login, function (data2) {
@@ -228,6 +181,60 @@
                         url: "../../bsk/menu/" + data2[0]["ObecnaRola"]
                     }).then(function(data) {
                         $(".miejsceNaMenu").html(data);  
+                    });
+                    
+                    var rola = data2[0]["ObecnaRola"];
+                    $.getJSON('../../bsk/rolesmanager/role/' + rola, function (data3) {
+                        if(!(data3[0]["OsobaWyświetlanie"] || data3[0]["OsobaDodawanie"] || data3[0]["OsobaEdycja"]))
+                        {
+                            window.location.href = "../index.html";
+                        }
+                        var person_id = get('person');
+                        var visible = get('visible');
+                        if (person_id == null || person_id == '' || person_id == 'new') {
+                            // nagłówek strony
+                            $(".page-header").html("Dodaj osobę");
+                            // przycisk formularza
+                            document.getElementById("submitButton").innerHTML = "Dodaj osobę";
+                            // atrybut action formularza                
+                            jQuery('form[id=accountForm]').attr('action', "../../bsk/peoplemanager/person/add");
+                            // atrybut placeholder pola ID osoby
+                            jQuery('input[id=IDOsoba]').attr('placeholder', 'ID zostanie nadane automatycznie');
+
+                        } else if (person_id != null && visible == 'no') {
+                            // nagłówek strony
+                            $(".page-header").html("Edytuj osobę");
+                            // przycisk formularza
+                            document.getElementById("submitButton").innerHTML = "Zapisz osobę";
+
+                            $.getJSON('../../bsk/peoplemanager/person/' + person_id, function (data4) {
+                                // atrybut action formularza                
+                                jQuery('form[id=accountForm]').attr('action', "../../bsk/peoplemanager/person/" + data4[0]["ID_Osoba"] + "/edit");
+                                jQuery('input[id=IDOsoba]').attr('value', data4[0]["ID_Osoba"]);
+                            }); 
+                        } else if (person_id != null) {
+                            // nagłówek strony
+                            $(".page-header").html("Edytuj osobę");
+                            // przycisk formularza
+                            document.getElementById("submitButton").innerHTML = "Zapisz osobę";
+
+                            $.getJSON('../../bsk/peoplemanager/person/' + person_id, function (data4) {
+                                // atrybut action formularza                
+                                jQuery('form[id=accountForm]').attr('action', "../../bsk/peoplemanager/person/" + data4[0]["ID_Osoba"] + "/edit");
+                                jQuery('input[id=IDOsoba]').attr('value', data4[0]["ID_Osoba"]);
+                                if(data3[0]["OsobaWyświetlanie"])
+                                {
+                                    jQuery('input[id=imie]').attr('value', data4[0]["Imię"]);
+                                    jQuery('input[id=nazwisko]').attr('value', data4[0]["Nazwisko"]);
+                                    jQuery('input[id=pesel]').attr('value', data4[0]["PESEL"]);
+                                    jQuery('input[id=dataUrodzenia]').attr('value', data4[0]["dataUrodzenia"]);
+                                    jQuery('option[id=' + data4[0]["TypOsoby"] + ']').attr('selected', 'selected');
+                                    jQuery('input[id=plec]').attr('value', data4[0]["Płeć"]);
+                                    jQuery('input[id=adres]').attr('value', data4[0]["Adres"]);
+                                    jQuery('input[id=telefon]').attr('value', data4[0]["NumerTelefonu"]);
+                                }
+                            });                
+                        }
                     });
                 });
             });

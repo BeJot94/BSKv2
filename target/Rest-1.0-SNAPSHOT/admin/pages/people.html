@@ -155,9 +155,10 @@
                 
                 var rola = data2[0]["ObecnaRola"];
                 $.getJSON('../../bsk/rolesmanager/role/' + rola, function (data3) {
-                    if(!data3[0]["OsobaWyświetlanie"])
+                    if(!data3[0]["OsobaWyświetlanie"] && !(data3[0]["OsobaEdycja"] || 
+                            data3[0]["OsobaDodawanie"] || data3[0]["OsobaUsuwanie"]))
                     {
-                    window.location.href = "../index.html";
+                        window.location.href = "../index.html";
                     }
                     $.getJSON('../../bsk/peoplemanager/people/all', function (data4) {
                         var array = new Array();
